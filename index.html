@@ -1,50 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Filiação Partidária – RP Brookasil</title>
-
-<style>
-body { font-family: Arial; background:#eef4f7; margin:0; }
-header { background:linear-gradient(90deg,#0a7cff,#0bb37b); color:#fff; padding:20px; text-align:center; }
-main { max-width:1200px; margin:auto; padding:20px; }
-h2 { color:#0a7cff; }
-.box { background:#fff; padding:20px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,.1); margin-bottom:25px; }
-label { font-weight:bold; margin-top:12px; display:block; }
-input, select, button { width:100%; padding:10px; margin-top:5px; }
-button { background:#0bb37b; color:#fff; border:none; border-radius:6px; cursor:pointer; }
-button:hover { background:#099b69; }
-table { width:100%; border-collapse:collapse; margin-top:10px; }
-th, td { border:1px solid #ccc; padding:6px; text-align:center; font-size:13px; }
-th { background:#0a7cff; color:#fff; }
-.hidden { display:none; }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-@media(max-width:800px){ .grid{grid-template-columns:1fr;} }
-</style>
-</head>
-
-<body>
-
+<title>Filiação Partidária – RP Brookasil</title><style>
+body{font-family:Arial;background:#eef4f7;margin:0}
+header{background:linear-gradient(90deg,#0a7cff,#0bb37b);color:#fff;padding:20px;text-align:center}
+main{max-width:1200px;margin:auto;padding:20px}
+h2{color:#0a7cff}
+.box{background:#fff;padding:20px;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,.1);margin-bottom:25px}
+label{font-weight:bold;margin-top:12px;display:block}
+input,select,button{width:100%;padding:10px;margin-top:5px}
+button{background:#0bb37b;color:#fff;border:none;border-radius:6px;cursor:pointer}
+button:hover{background:#099b69}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #ccc;padding:6px;text-align:center;font-size:13px}
+th{background:#0a7cff;color:#fff}
+.hidden{display:none}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+</style></head><body>
 <header>
-  <h1>🗳️ Sistema de Filiação Partidária</h1>
-  <p>RESPONDA TUDO SOBRE O RP !!</p>
-</header>
-
-<main>
-
-<!-- FICHA -->
-<div class="box">
+<h1>🗳️ Sistema de Filiação Partidária</h1>
+<p>RESPONDA TUDO SOBRE O RP !!</p>
+</header><main><div class="box">
 <h2>📄 Ficha de Filiação</h2>
-<form id="formFiliacao">
+<form id="formFiliacao"><label>Nome e sobrenome</label> <input id="nome" required>
 
-<label>Nome e sobrenome</label>
-<input id="nome" required>
+<label>Data de nascimento</label> <input type="date" id="nascimento" required>
 
-<label>Data de nascimento</label>
-<input type="date" id="nascimento" required>
+<label>Zona Eleitoral</label> <select id="zona" required>
 
-<label>Zona Eleitoral</label>
-<select id="zona" required>
 <option value="">Selecione</option>
 <optgroup label="BH">
 <option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option>
@@ -73,105 +57,167 @@ th { background:#0a7cff; color:#fff; }
 <option>FX-09</option><option>FX-10</option><option>FX-11</option><option>FX-12</option>
 <option>FX-13</option><option>FX-14</option>
 </optgroup>
-</select>
+</select><label>CPF (RP)</label> <input id="cpf" required>
 
-<label>CPF (RP)</label>
-<input id="cpf" required>
+<label>TikTok</label> <input id="tiktok" required>
 
-<label>TikTok (@)</label>
-<input id="tiktok" required>
+<label>Lado Político</label> <select id="lado" required>
 
-<label>Lado Político</label>
-<select id="lado" required onchange="atualizarPartidos()">
 <option value="">Selecione</option>
 <option>Direita</option>
 <option>Centro</option>
 <option>Esquerda</option>
-</select>
+</select><label>Partido</label> <select id="partido" required>
 
-<label>Partido</label>
-<select id="partido" required></select>
+<option value="">Selecione o lado primeiro</option>
+</select><button type="submit">📌 Confirmar Filiação</button>
 
-<button>📌 Confirmar Filiação</button>
 </form>
-</div>
-
-<!-- ESTATÍSTICAS -->
-<div class="grid">
-
+</div><div class="grid">
 <div class="box">
 <h2>📊 Partidos mais escolhidos</h2>
 <table>
 <thead><tr><th>Partido</th><th>Filiados</th></tr></thead>
 <tbody id="contadorPartidos"></tbody>
 </table>
-</div>
-
-<div class="box">
+</div><div class="box">
 <h2>🗺️ Zonas mais escolhidas</h2>
 <table>
-<thead><tr><th>Zona Eleitoral</th><th>Fichas</th></tr></thead>
+<thead><tr><th>Zona</th><th>Fichas</th></tr></thead>
 <tbody id="contadorZonas"></tbody>
 </table>
 </div>
-
-</div>
-
-<!-- ADM -->
-<div class="box">
+</div><div class="box">
 <h2>🔐 Painel ADM</h2>
 <input type="password" id="senhaAdm" placeholder="Senha ADM">
 <button onclick="entrarAdm()">Entrar</button>
-
 <div id="areaAdm" class="hidden">
 <p><b>Total de fichas:</b> <span id="total"></span></p>
 <button style="background:#d9534f" onclick="apagarTudo()">🗑️ Apagar todas as fichas</button>
 </div>
-</div>
-
-</main>
-
-<script>
+</div></main><script>
 const SENHA_ADM = "1234";
 
 const partidos = {
- "Direita":[ "PL (22) – Partido Liberal","PP (11) – Progressistas","Republicanos (10) – Republicanos","Patriota (51) – Patriota","PRTB (28) – Partido Renovador Trabalhista Brasileiro","NOVO (30) – Partido Novo","PMB (35) – Partido da Mulher Brasileira","DC (27) – Democracia Cristã","UDB (38) – União da Direita Brookasileira","Agir (36) – Agir","POL (81) – Partido da Ordem e Liberdade","ACN (84) – Aliança Cristã Nacional","PRONA (57) – Partido da Reedificação da Ordem Nacional","FIB (90) – Frente Integralista Brasileira","PDC (17) – Partido Democrata Cristão","PESP (48) – Partido da Esperança","PMNL (86) – Partido Militar Nacionalista"],
- "Centro":[ "PHN (75) – Partido do Horizonte Nacional","MDB (15) – Movimento Democrático Brasileiro","UNIÃO (44) – União Brasil","PSD (55) – Partido Social Democrático","Podemos (20) – Podemos","PSDB (45) – Partido da Social Democracia Brasileira","Cidadania (23) – Cidadania","Solidariedade (77) – Solidariedade","Avante (70) – Avante","PMN (33) – Partido da Mobilização Nacional","Pros (90) – Partido Republicano da Ordem Social","PV (43) – Partido Verde","PUN (42) – Partido da União Nacional","MPD (37) – Movimento Popular Democrático","PDM (26) – Partido da Mudança","MTB (63) – Movimento Trabalhista Brookasileiro","PTD (46) – Partido Trabalhista Democrático","PDSD (88) – Partido do Sindicato Democrata","MSS (14) – Partido Missão"],
- "Esquerda":[ "PT (13) – Partido dos Trabalhadores","PSOL (50) – Partido Socialismo e Liberdade","PCdoB (65) – Partido Comunista do Brasil","Rede (18) – Rede Sustentabilidade","PDT (12) – Partido Democrático Trabalhista","UP (80) – Unidade Popular","PCO (29) – Partido da Causa Operária","PCB (21) – Partido Comunista Brasileiro","PSTU (16) – Partido Socialista dos Trabalhadores Unificado","PPL (54) – Partido Pátria Livre","PSB (40) – Partido Socialista Brasileiro","PFS (60) – Partido da Frente Socialista","PS (56) – Partido Socialista","PSTN (31) – Partido Social Trabalhista Nacional"]
+Direita:[
+"PL (22) – Partido Liberal",
+"PP (11) – Progressistas",
+"Republicanos (10) – Republicanos",
+"Patriota (51) – Patriota",
+"PRTB (28) – Partido Renovador Trabalhista Brasileiro",
+"NOVO (30) – Partido Novo",
+"PMB (35) – Partido da Mulher Brasileira",
+"DC (27) – Democracia Cristã",
+"UDB (38) – União da Direita Brookasileira",
+"Agir (36) – Agir",
+"POL (81) – Partido da Ordem e Liberdade",
+"ACN (84) – Aliança Cristã Nacional",
+"PRONA (57) – Partido da Reedificação da Ordem Nacional",
+"FIB (90) – Frente Integralista Brasileira",
+"PDC (17) – Partido Democrata Cristão",
+"PESP (48) – Partido da Esperança",
+"PMNL (86) – Partido Militar Nacionalista"
+],
+Centro:[
+"PHN (75) – Partido do Horizonte Nacional",
+"MDB (15) – Movimento Democrático Brasileiro",
+"UNIÃO (44) – União Brasil",
+"PSD (55) – Partido Social Democrático",
+"Podemos (20) – Podemos",
+"PSDB (45) – Partido da Social Democracia Brasileira",
+"Cidadania (23) – Cidadania",
+"Solidariedade (77) – Solidariedade",
+"Avante (70) – Avante",
+"PMN (33) – Partido da Mobilização Nacional",
+"Pros (90) – Partido Republicano da Ordem Social",
+"PV (43) – Partido Verde",
+"PUN (42) – Partido da União Nacional",
+"MPD (37) – Movimento Popular Democrático",
+"PDM (26) – Partido da Mudança",
+"MTB (63) – Movimento Trabalhista Brookasileiro",
+"PTD (46) – Partido Trabalhista Democrático",
+"PDSD (88) – Partido do Sindicato Democrata",
+"MSS (14) – Partido Missão"
+],
+Esquerda:[
+"PT (13) – Partido dos Trabalhadores",
+"PSOL (50) – Partido Socialismo e Liberdade",
+"PCdoB (65) – Partido Comunista do Brasil",
+"Rede (18) – Rede Sustentabilidade",
+"PDT (12) – Partido Democrático Trabalhista",
+"UP (80) – Unidade Popular",
+"PCO (29) – Partido da Causa Operária",
+"PCB (21) – Partido Comunista Brasileiro",
+"PSTU (16) – Partido Socialista dos Trabalhadores Unificado",
+"PPL (54) – Partido Pátria Livre",
+"PSB (40) – Partido Socialista Brasileiro",
+"PFS (60) – Partido da Frente Socialista",
+"PS (56) – Partido Socialista",
+"PSTN (31) – Partido Social Trabalhista Nacional"
+]
 };
 
-function atualizarPartidos(){
- partido.innerHTML="";
- partidos[lado.value].forEach(p=>partido.innerHTML+=`<option>${p}</option>`);
-}
+const lado = document.getElementById("lado");
+const partido = document.getElementById("partido");
 
-function get(){ return JSON.parse(localStorage.getItem("fichasRP"))||[] }
-function save(l){ localStorage.setItem("fichasRP",JSON.stringify(l)) }
+lado.addEventListener("change",()=>{
+ partido.innerHTML="<option value=''>Selecione</option>";
+ partidos[lado.value].forEach(p=>{
+  const o=document.createElement("option");
+  o.textContent=p;
+  o.value=p;
+  partido.appendChild(o);
+ });
+});
 
-formFiliacao.onsubmit=e=>{
+function getDados(){return JSON.parse(localStorage.getItem("fichasRP"))||[]}
+function salvarDados(d){localStorage.setItem("fichasRP",JSON.stringify(d))}
+
+const form=document.getElementById("formFiliacao");
+form.addEventListener("submit",e=>{
  e.preventDefault();
- const l=get();
- l.push({ nome:nome.value,nascimento:nascimento.value,zona:zona.value,cpf:cpf.value,tiktok:tiktok.value,lado:lado.value,partido:partido.value });
- save(l); formFiliacao.reset(); atualizar();
-}
+ const d=getDados();
+ d.push({
+  nome:nome.value,
+  nascimento:nascimento.value,
+  zona:zona.value,
+  cpf:cpf.value,
+  tiktok:tiktok.value,
+  lado:lado.value,
+  partido:partido.value
+ });
+ salvarDados(d);
+ form.reset();
+ partido.innerHTML="";
+ atualizar();
+});
 
 function atualizar(){
- const l=get(), p={}, z={};
- l.forEach(f=>{
+ const d=getDados();
+ const p={},z={};
+ d.forEach(f=>{
   p[f.partido]=(p[f.partido]||0)+1;
   z[f.zona]=(z[f.zona]||0)+1;
  });
- contadorPartidos.innerHTML=""; contadorZonas.innerHTML="";
- for(let k in p) contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
- for(let k in z) contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
- total.textContent=l.length;
+ contadorPartidos.innerHTML="";
+ contadorZonas.innerHTML="";
+ for(let k in p)contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
+ for(let k in z)contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
+ total.textContent=d.length;
 }
 
-function entrarAdm(){ senhaAdm.value===SENHA_ADM?areaAdm.classList.remove("hidden"):alert("Senha incorreta") }
-function apagarTudo(){ if(confirm("Apagar TODAS as fichas?")){ localStorage.removeItem("fichasRP"); atualizar(); } }
+function entrarAdm(){
+ if(senhaAdm.value===SENHA_ADM)areaAdm.classList.remove("hidden");
+ else alert("Senha incorreta");
+}
+
+function apagarTudo(){
+ if(confirm("Apagar TODAS as fichas?")){
+  localStorage.removeItem("fichasRP");
+  atualizar();
+ }
+}
 
 atualizar();
-</script>
-
-</body>
+</script></body>
 </html>
