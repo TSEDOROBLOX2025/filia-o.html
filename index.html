@@ -20,7 +20,7 @@ th,td{border:1px solid #ccc;padding:6px;text-align:center;font-size:13px}
 th{background:#0a7cff;color:#fff}
 .hidden{display:none}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media(max-width:800px){.grid{grid-template-columns:1fr}}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -32,9 +32,9 @@ th{background:#0a7cff;color:#fff}
 
 <main>
 
+<!-- FORMULÁRIO -->
 <div class="box">
 <h2>📄 Ficha de Filiação</h2>
-
 <form id="formFiliacao">
 
 <label>Nome e sobrenome</label>
@@ -46,32 +46,27 @@ th{background:#0a7cff;color:#fff}
 <label>Zona Eleitoral</label>
 <select id="zona" required>
 <option value="">Selecione</option>
-
 <optgroup label="BH">
 <option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option>
 <option>BH-05</option><option>BH-06</option><option>BH-07</option><option>BH-08</option>
 <option>BH-09</option><option>BH-10</option><option>BH-11</option><option>BH-12</option>
 <option>BH-13</option><option>BH-14</option>
 </optgroup>
-
 <optgroup label="NC">
 <option>NC-01</option><option>NC-02</option><option>NC-03</option><option>NC-04</option>
 <option>NC-05</option><option>NC-06</option><option>NC-07</option><option>NC-08</option>
 <option>NC-09</option><option>NC-10</option><option>NC-11</option>
 </optgroup>
-
 <optgroup label="CT">
 <option>CT-01</option><option>CT-02</option><option>CT-03</option><option>CT-04</option>
 <option>CT-05</option><option>CT-06</option><option>CT-07</option><option>CT-08</option>
 <option>CT-09</option><option>CT-10</option><option>CT-11</option><option>CT-12</option>
 </optgroup>
-
 <optgroup label="FM">
 <option>FM-01</option><option>FM-02</option><option>FM-03</option><option>FM-04</option>
 <option>FM-05</option><option>FM-06</option><option>FM-07</option><option>FM-08</option>
 <option>FM-09</option><option>FM-10</option>
 </optgroup>
-
 <optgroup label="FX">
 <option>FX-01</option><option>FX-02</option><option>FX-03</option><option>FX-04</option>
 <option>FX-05</option><option>FX-06</option><option>FX-07</option><option>FX-08</option>
@@ -103,6 +98,7 @@ th{background:#0a7cff;color:#fff}
 </form>
 </div>
 
+<!-- CONTADORES -->
 <div class="grid">
 <div class="box">
 <h2>📊 Partidos mais escolhidos</h2>
@@ -121,12 +117,31 @@ th{background:#0a7cff;color:#fff}
 </div>
 </div>
 
+<!-- PAINEL ADM -->
 <div class="box">
 <h2>🔐 Painel ADM</h2>
 <input type="password" id="senhaAdm" placeholder="Senha ADM">
 <button onclick="entrarAdm()">Entrar</button>
+
 <div id="areaAdm" class="hidden">
 <p><b>Total de fichas:</b> <span id="total">0</span></p>
+
+<h3>📋 Todas as fichas</h3>
+<table>
+<thead>
+<tr>
+<th>Nome</th>
+<th>Zona</th>
+<th>Partido</th>
+<th>TikTok</th>
+</tr>
+</thead>
+<tbody id="listaFichas"></tbody>
+</table>
+
+<button style="background:#d9534f;margin-top:15px" onclick="apagarTudo()">
+🗑️ Apagar TODAS as fichas
+</button>
 </div>
 </div>
 
@@ -147,42 +162,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-const SENHA_ADM = "1234";
+const SENHA_ADM = "Brookasil1234";
 
+/* PARTIDOS */
 const partidos = {
-Direita:[
-"PL (22) – Partido Liberal","PP (11) – Progressistas","Republicanos (10) – Republicanos",
-"Patriota (51) – Patriota","PRTB (28) – Partido Renovador Trabalhista Brasileiro",
-"NOVO (30) – Partido Novo","PMB (35) – Partido da Mulher Brasileira","DC (27) – Democracia Cristã",
-"UDB (38) – União da Direita Brookasileira","Agir (36) – Agir","POL (81) – Partido da Ordem e Liberdade",
-"ACN (84) – Aliança Cristã Nacional","PRONA (57) – Partido da Reedificação da Ordem Nacional",
-"FIB (90) – Frente Integralista Brasileira","PDC (17) – Partido Democrata Cristão",
-"PESP (48) – Partido da Esperança","PMNL (86) – Partido Militar Nacionalista"
-],
-Centro:[
-"PHN (75) – Partido do Horizonte Nacional","MDB (15) – Movimento Democrático Brasileiro",
-"UNIÃO (44) – União Brasil","PSD (55) – Partido Social Democrático","Podemos (20) – Podemos",
-"PSDB (45) – Partido da Social Democracia Brasileira","Cidadania (23) – Cidadania",
-"Solidariedade (77) – Solidariedade","Avante (70) – Avante","PMN (33) – Partido da Mobilização Nacional",
-"Pros (90) – Partido Republicano da Ordem Social","PV (43) – Partido Verde",
-"PUN (42) – Partido da União Nacional","MPD (37) – Movimento Popular Democrático",
-"PDM (26) – Partido da Mudança","MTB (63) – Movimento Trabalhista Brookasileiro",
-"PTD (46) – Partido Trabalhista Democrático","PDSD (88) – Partido do Sindicato Democrata",
-"MSS (14) – Partido Missão"
-],
-Esquerda:[
-"PT (13) – Partido dos Trabalhadores","PSOL (50) – Partido Socialismo e Liberdade",
-"PCdoB (65) – Partido Comunista do Brasil","Rede (18) – Rede Sustentabilidade",
-"PDT (12) – Partido Democrático Trabalhista","UP (80) – Unidade Popular",
-"PCO (29) – Partido da Causa Operária","PCB (21) – Partido Comunista Brasileiro",
-"PSTU (16) – Partido Socialista dos Trabalhadores Unificado","PPL (54) – Partido Pátria Livre",
-"PSB (40) – Partido Socialista Brasileiro","PFS (60) – Partido da Frente Socialista",
-"PS (56) – Partido Socialista","PSTN (31) – Partido Social Trabalhista Nacional"
-]
+Direita:["PL (22) – Partido Liberal","PP (11) – Progressistas","Republicanos (10) – Republicanos","Patriota (51) – Patriota","PRTB (28) – Partido Renovador Trabalhista Brasileiro","NOVO (30) – Partido Novo","PMB (35) – Partido da Mulher Brasileira","DC (27) – Democracia Cristã","UDB (38) – União da Direita Brookasileira","Agir (36) – Agir","POL (81) – Partido da Ordem e Liberdade","ACN (84) – Aliança Cristã Nacional","PRONA (57) – Partido da Reedificação da Ordem Nacional","FIB (90) – Frente Integralista Brasileira","PDC (17) – Partido Democrata Cristão","PESP (48) – Partido da Esperança","PMNL (86) – Partido Militar Nacionalista"],
+Centro:["PHN (75) – Partido do Horizonte Nacional","MDB (15) – Movimento Democrático Brasileiro","UNIÃO (44) – União Brasil","PSD (55) – Partido Social Democrático","Podemos (20) – Podemos","PSDB (45) – Partido da Social Democracia Brasileira","Cidadania (23) – Cidadania","Solidariedade (77) – Solidariedade","Avante (70) – Avante","PMN (33) – Partido da Mobilização Nacional","Pros (90) – Partido Republicano da Ordem Social","PV (43) – Partido Verde","PUN (42) – Partido da União Nacional","MPD (37) – Movimento Popular Democrático","PDM (26) – Partido da Mudança","MTB (63) – Movimento Trabalhista Brookasileiro","PTD (46) – Partido Trabalhista Democrático","PDSD (88) – Partido do Sindicato Democrata","MSS (14) – Partido Missão"],
+Esquerda:["PT (13) – Partido dos Trabalhadores","PSOL (50) – Partido Socialismo e Liberdade","PCdoB (65) – Partido Comunista do Brasil","Rede (18) – Rede Sustentabilidade","PDT (12) – Partido Democrático Trabalhista","UP (80) – Unidade Popular","PCO (29) – Partido da Causa Operária","PCB (21) – Partido Comunista Brasileiro","PSTU (16) – Partido Socialista dos Trabalhadores Unificado","PPL (54) – Partido Pátria Livre","PSB (40) – Partido Socialista Brasileiro","PFS (60) – Partido da Frente Socialista","PS (56) – Partido Socialista","PSTN (31) – Partido Social Trabalhista Nacional"]
 };
-
-const lado=document.getElementById("lado");
-const partido=document.getElementById("partido");
 
 lado.onchange=()=>{
  partido.innerHTML="<option value=''>Selecione</option>";
@@ -211,9 +198,11 @@ db.ref("filiacoes").on("value",s=>{
  const d=s.val()||{},p={},z={};
  contadorPartidos.innerHTML="";
  contadorZonas.innerHTML="";
+ listaFichas.innerHTML="";
  Object.values(d).forEach(f=>{
   p[f.partido]=(p[f.partido]||0)+1;
   z[f.zona]=(z[f.zona]||0)+1;
+  listaFichas.innerHTML+=`<tr><td>${f.nome}</td><td>${f.zona}</td><td>${f.partido}</td><td>${f.tiktok}</td></tr>`;
  });
  for(let k in p)contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
  for(let k in z)contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
@@ -223,6 +212,12 @@ db.ref("filiacoes").on("value",s=>{
 function entrarAdm(){
  if(senhaAdm.value===SENHA_ADM)areaAdm.classList.remove("hidden");
  else alert("Senha incorreta");
+}
+
+function apagarTudo(){
+ if(confirm("Tem certeza que deseja apagar TODAS as fichas?")){
+  db.ref("filiacoes").remove();
+ }
 }
 </script>
 
