@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Filiação Partidária – RP Brookasil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{font-family:Arial;background:#eef4f7;margin:0}
@@ -26,13 +27,14 @@ th{background:#0a7cff;color:#fff}
 <body>
 <header>
 <h1>🗳️ Sistema de Filiação Partidária</h1>
-<p>RESPONDA TUDO SOBRE O RP !!</p>
+<p>RP Brookasil</p>
 </header>
 
 <main>
 
 <div class="box">
 <h2>📄 Ficha de Filiação</h2>
+
 <form id="formFiliacao">
 
 <label>Nome e sobrenome</label>
@@ -44,11 +46,38 @@ th{background:#0a7cff;color:#fff}
 <label>Zona Eleitoral</label>
 <select id="zona" required>
 <option value="">Selecione</option>
-<optgroup label="BH"><option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option><option>BH-05</option><option>BH-06</option><option>BH-07</option><option>BH-08</option><option>BH-09</option><option>BH-10</option><option>BH-11</option><option>BH-12</option><option>BH-13</option><option>BH-14</option></optgroup>
-<optgroup label="NC"><option>NC-01</option><option>NC-02</option><option>NC-03</option><option>NC-04</option><option>NC-05</option><option>NC-06</option><option>NC-07</option><option>NC-08</option><option>NC-09</option><option>NC-10</option><option>NC-11</option></optgroup>
-<optgroup label="CT"><option>CT-01</option><option>CT-02</option><option>CT-03</option><option>CT-04</option><option>CT-05</option><option>CT-06</option><option>CT-07</option><option>CT-08</option><option>CT-09</option><option>CT-10</option><option>CT-11</option><option>CT-12</option></optgroup>
-<optgroup label="FM"><option>FM-01</option><option>FM-02</option><option>FM-03</option><option>FM-04</option><option>FM-05</option><option>FM-06</option><option>FM-07</option><option>FM-08</option><option>FM-09</option><option>FM-10</option></optgroup>
-<optgroup label="FX"><option>FX-01</option><option>FX-02</option><option>FX-03</option><option>FX-04</option><option>FX-05</option><option>FX-06</option><option>FX-07</option><option>FX-08</option><option>FX-09</option><option>FX-10</option><option>FX-11</option><option>FX-12</option><option>FX-13</option><option>FX-14</option></optgroup>
+
+<optgroup label="BH">
+<option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option>
+<option>BH-05</option><option>BH-06</option><option>BH-07</option><option>BH-08</option>
+<option>BH-09</option><option>BH-10</option><option>BH-11</option><option>BH-12</option>
+<option>BH-13</option><option>BH-14</option>
+</optgroup>
+
+<optgroup label="NC">
+<option>NC-01</option><option>NC-02</option><option>NC-03</option><option>NC-04</option>
+<option>NC-05</option><option>NC-06</option><option>NC-07</option><option>NC-08</option>
+<option>NC-09</option><option>NC-10</option><option>NC-11</option>
+</optgroup>
+
+<optgroup label="CT">
+<option>CT-01</option><option>CT-02</option><option>CT-03</option><option>CT-04</option>
+<option>CT-05</option><option>CT-06</option><option>CT-07</option><option>CT-08</option>
+<option>CT-09</option><option>CT-10</option><option>CT-11</option><option>CT-12</option>
+</optgroup>
+
+<optgroup label="FM">
+<option>FM-01</option><option>FM-02</option><option>FM-03</option><option>FM-04</option>
+<option>FM-05</option><option>FM-06</option><option>FM-07</option><option>FM-08</option>
+<option>FM-09</option><option>FM-10</option>
+</optgroup>
+
+<optgroup label="FX">
+<option>FX-01</option><option>FX-02</option><option>FX-03</option><option>FX-04</option>
+<option>FX-05</option><option>FX-06</option><option>FX-07</option><option>FX-08</option>
+<option>FX-09</option><option>FX-10</option><option>FX-11</option><option>FX-12</option>
+<option>FX-13</option><option>FX-14</option>
+</optgroup>
 </select>
 
 <label>CPF (RP)</label>
@@ -113,76 +142,86 @@ const firebaseConfig = {
  authDomain: "filiacao-rp.firebaseapp.com",
  databaseURL: "https://filiacao-rp-default-rtdb.firebaseio.com",
  projectId: "filiacao-rp",
- storageBucket: "filiacao-rp.firebasestorage.app",
- messagingSenderId: "998954686242",
  appId: "1:998954686242:web:da98af92b92108915b377b"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-const ref = db.ref("filiacoes");
 
 const SENHA_ADM = "1234";
 
-/* PARTIDOS */
-const partidos = { /* (mantido igual ao seu) */
-  Direita:[ /* ... lista completa ... */ ],
-  Centro:[ /* ... lista completa ... */ ],
-  Esquerda:[ /* ... lista completa ... */ ]
+const partidos = {
+Direita:[
+"PL (22) – Partido Liberal","PP (11) – Progressistas","Republicanos (10) – Republicanos",
+"Patriota (51) – Patriota","PRTB (28) – Partido Renovador Trabalhista Brasileiro",
+"NOVO (30) – Partido Novo","PMB (35) – Partido da Mulher Brasileira","DC (27) – Democracia Cristã",
+"UDB (38) – União da Direita Brookasileira","Agir (36) – Agir","POL (81) – Partido da Ordem e Liberdade",
+"ACN (84) – Aliança Cristã Nacional","PRONA (57) – Partido da Reedificação da Ordem Nacional",
+"FIB (90) – Frente Integralista Brasileira","PDC (17) – Partido Democrata Cristão",
+"PESP (48) – Partido da Esperança","PMNL (86) – Partido Militar Nacionalista"
+],
+Centro:[
+"PHN (75) – Partido do Horizonte Nacional","MDB (15) – Movimento Democrático Brasileiro",
+"UNIÃO (44) – União Brasil","PSD (55) – Partido Social Democrático","Podemos (20) – Podemos",
+"PSDB (45) – Partido da Social Democracia Brasileira","Cidadania (23) – Cidadania",
+"Solidariedade (77) – Solidariedade","Avante (70) – Avante","PMN (33) – Partido da Mobilização Nacional",
+"Pros (90) – Partido Republicano da Ordem Social","PV (43) – Partido Verde",
+"PUN (42) – Partido da União Nacional","MPD (37) – Movimento Popular Democrático",
+"PDM (26) – Partido da Mudança","MTB (63) – Movimento Trabalhista Brookasileiro",
+"PTD (46) – Partido Trabalhista Democrático","PDSD (88) – Partido do Sindicato Democrata",
+"MSS (14) – Partido Missão"
+],
+Esquerda:[
+"PT (13) – Partido dos Trabalhadores","PSOL (50) – Partido Socialismo e Liberdade",
+"PCdoB (65) – Partido Comunista do Brasil","Rede (18) – Rede Sustentabilidade",
+"PDT (12) – Partido Democrático Trabalhista","UP (80) – Unidade Popular",
+"PCO (29) – Partido da Causa Operária","PCB (21) – Partido Comunista Brasileiro",
+"PSTU (16) – Partido Socialista dos Trabalhadores Unificado","PPL (54) – Partido Pátria Livre",
+"PSB (40) – Partido Socialista Brasileiro","PFS (60) – Partido da Frente Socialista",
+"PS (56) – Partido Socialista","PSTN (31) – Partido Social Trabalhista Nacional"
+]
 };
 
-const lado = document.getElementById("lado");
-const partido = document.getElementById("partido");
-const form = document.getElementById("formFiliacao");
+const lado=document.getElementById("lado");
+const partido=document.getElementById("partido");
 
-lado.onchange = ()=>{
+lado.onchange=()=>{
  partido.innerHTML="<option value=''>Selecione</option>";
  partidos[lado.value].forEach(p=>{
   const o=document.createElement("option");
-  o.textContent=o.value=p;
+  o.value=o.textContent=p;
   partido.appendChild(o);
  });
 };
 
-form.onsubmit = e=>{
+formFiliacao.onsubmit=e=>{
  e.preventDefault();
- ref.push({
+ db.ref("filiacoes").push({
   nome:nome.value,
   nascimento:nascimento.value,
   zona:zona.value,
   cpf:cpf.value,
   tiktok:tiktok.value,
   lado:lado.value,
-  partido:partido.value,
-  data:Date.now()
+  partido:partido.value
  });
- form.reset();
+ formFiliacao.reset();
 };
 
-ref.on("value", snap=>{
- const dados=snap.val()||{};
- const p={},z={};
+db.ref("filiacoes").on("value",s=>{
+ const d=s.val()||{},p={},z={};
  contadorPartidos.innerHTML="";
  contadorZonas.innerHTML="";
- let t=0;
-
- Object.values(dados).forEach(f=>{
-  t++;
+ Object.values(d).forEach(f=>{
   p[f.partido]=(p[f.partido]||0)+1;
   z[f.zona]=(z[f.zona]||0)+1;
  });
-
- for(let k in p)
-  contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
- for(let k in z)
-  contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
-
- total.textContent=t;
+ for(let k in p)contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
+ for(let k in z)contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
+ total.textContent=Object.keys(d).length;
 });
 
 function entrarAdm(){
- if(senhaAdm.value===SENHA_ADM)
-  areaAdm.classList.remove("hidden");
+ if(senhaAdm.value===SENHA_ADM)areaAdm.classList.remove("hidden");
  else alert("Senha incorreta");
 }
 </script>
