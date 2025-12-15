@@ -290,33 +290,43 @@ function entrarAdm(){
 }
 
 /* OBRAS */
-const SENHAS={Prefeito:"popo30",Governador:"caiado44",Presidente:"henrique44"};
+const SENHAS = {Prefeito:"popo30", Governador:"caiado44", Presidente:"henrique44"};
+let admLogado = false; // flag para saber se o ADM entrou
+
+function entrarAdm(){
+  if(senhaAdm.value === "Brookasil1234") {
+    areaAdm.classList.remove("hidden");
+    admLogado = true; // você está logado como ADM
+  }
+}
 
 function registrarObra(){
-  if(SENHAS[cargoObra.value]!==senhaObra.value)
+  if(SENHAS[cargoObra.value] !== senhaObra.value) {
     return alert("Senha errada");
+  }
 
   db.ref("obras").push({
-    cargo:cargoObra.value,
-    titulo:tituloObra.value,
-    descricao:descricaoObra.value,
-    local:localObra.value,
-    data:new Date().toLocaleDateString("pt-BR")
+    cargo: cargoObra.value,
+    titulo: tituloObra.value,
+    descricao: descricaoObra.value,
+    local: localObra.value,
+    data: new Date().toLocaleDateString("pt-BR")
   });
 }
 
-db.ref("obras").on("value", s=>{
-  listaObras.innerHTML="";
-  Object.entries(s.val()||{}).forEach(([id,o])=>{
+db.ref("obras").on("value", s => {
+  listaObras.innerHTML = "";
+  Object.entries(s.val() || {}).forEach(([id, o]) => {
     listaObras.innerHTML += `
-    <tr>
-      <td>${o.titulo}</td>
-      <td>${o.cargo}</td>
-      <td>${o.local}</td>
-      <td>${o.descricao}</td>
-      <td>${o.data}</td>
-      <td><button onclick="db.ref('obras/${id}').remove()">🗑️</button></td>
-    </tr>`;
+      <tr>
+        <td>${o.titulo}</td>
+        <td>${o.cargo}</td>
+        <td>${o.local}</td>
+        <td>${o.descricao}</td>
+        <td>${o.data}</td>
+        <td>${admLogado ? `<button onclick="db.ref('obras/${id}').remove()">🗑️</button>` : ""}</td>
+      </tr>
+    `;
   });
 });
 </script>
