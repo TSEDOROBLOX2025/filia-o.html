@@ -42,12 +42,49 @@ th{background:#0a7cff;color:#fff}
 
 <form id="formFiliacao">
 <label>Nome</label><input id="nome" required>
+<label>CPF (RP)</label>
+<input
+  type="text"
+  id="cpf"
+  placeholder="000.000.000-00"
+  required>
 <label>Zona Eleitoral</label>
 <select id="zona" required>
-<option value="">Selecione</option>
-<option>BH-01</option><option>BH-02</option><option>NC-01</option><option>CT-01</option>
-</select>
+  <option value="">Selecione</option>
 
+  <optgroup label="BH">
+    <option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option>
+    <option>BH-05</option><option>BH-06</option><option>BH-07</option><option>BH-08</option>
+    <option>BH-09</option><option>BH-10</option><option>BH-11</option><option>BH-12</option>
+    <option>BH-13</option><option>BH-14</option>
+  </optgroup>
+
+  <optgroup label="NC">
+    <option>NC-01</option><option>NC-02</option><option>NC-03</option><option>NC-04</option>
+    <option>NC-05</option><option>NC-06</option><option>NC-07</option><option>NC-08</option>
+    <option>NC-09</option><option>NC-10</option><option>NC-11</option>
+  </optgroup>
+
+  <optgroup label="CT">
+    <option>CT-01</option><option>CT-02</option><option>CT-03</option><option>CT-04</option>
+    <option>CT-05</option><option>CT-06</option><option>CT-07</option><option>CT-08</option>
+    <option>CT-09</option><option>CT-10</option><option>CT-11</option><option>CT-12</option>
+  </optgroup>
+
+  <optgroup label="FM">
+    <option>FM-01</option><option>FM-02</option><option>FM-03</option><option>FM-04</option>
+    <option>FM-05</option><option>FM-06</option><option>FM-07</option><option>FM-08</option>
+    <option>FM-09</option><option>FM-10</option>
+  </optgroup>
+
+  <optgroup label="FX">
+    <option>FX-01</option><option>FX-02</option><option>FX-03</option><option>FX-04</option>
+    <option>FX-05</option><option>FX-06</option><option>FX-07</option><option>FX-08</option>
+    <option>FX-09</option><option>FX-10</option><option>FX-11</option><option>FX-12</option>
+    <option>FX-13</option><option>FX-14</option>
+  </optgroup>
+</select>
+ 
 <label>Lado Político</label>
 <select id="lado" required>
 <option value="">Selecione</option>
@@ -226,7 +263,7 @@ db.ref("filiacoes").on("value",s=>{
  });
  for(let k in p)contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
  for(let k in z)contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
- totalF.textContent=Object.keys(d).length;
+ total.textContent=Object.keys(d).length;
 });
 
 formObra.onsubmit=e=>{
