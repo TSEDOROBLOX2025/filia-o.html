@@ -205,83 +205,82 @@ db.ref("filiacoes").on("value", snap => {
 
   total.textContent = totalCount;
 });
-</script>
-
-<script>
-firebase.initializeApp({
-databaseURL:"https://filiacao-rp-default-rtdb.firebaseio.com"
-});
-const db=firebase.database();
 
 /* PARTIDOS */
+const lado = document.getElementById("lado");
+const partido = document.getElementById("partido");
+
 const partidos = {
-Direita:[
-"PL (22) – Partido Liberal",
-"PP (11) – Progressistas",
-"Republicanos (10) – Republicanos",
-"PRTN (75) – Partido Republicano Trabalhista Nacional"
-"Patriota (51) – Patriota",
-"PRTB (28) – Partido Renovador Trabalhista Brasileiro",
-"NOVO (30) – Partido Novo",
-"PMB (35) – Partido da Mulher Brasileira",
-"DC (27) – Democracia Cristã",
-"UDB (38) – União da Direita Brookasileira",
-"Agir (36) – Agir",
-"POL (81) – Partido da Ordem e Liberdade",
-"ACN (84) – Aliança Cristã Nacional",
-"PRONA (57) – Partido da Reedificação da Ordem Nacional",
-"PDC (17) – Partido Democrata Cristão",
-"PESP (48) – Partido da Esperança",
-"PMNL (86) – Partido Militar Nacionalista"
-],
+  Direita: [
+    "PL (22) – Partido Liberal",
+    "PP (11) – Progressistas",
+    "Republicanos (10) – Republicanos",
+    "PRTN (75) – Partido Republicano Trabalhista Nacional",
+    "Patriota (51) – Patriota",
+    "PRTB (28) – Partido Renovador Trabalhista Brasileiro",
+    "NOVO (30) – Partido Novo",
+    "PMB (35) – Partido da Mulher Brasileira",
+    "DC (27) – Democracia Cristã",
+    "UDB (38) – União da Direita Brookasileira",
+    "Agir (36) – Agir",
+    "POL (81) – Partido da Ordem e Liberdade",
+    "ACN (84) – Aliança Cristã Nacional",
+    "PRONA (57) – Partido da Reedificação da Ordem Nacional",
+    "PDC (17) – Partido Democrata Cristão",
+    "PESP (48) – Partido da Esperança",
+    "PMNL (86) – Partido Militar Nacionalista"
+  ],
 
-Centro:[
-"MDB (15) – Movimento Democrático Brasileiro",
-"UNIÃO (44) – União Brasil",
-"PSD (55) – Partido Social Democrático",
-"Podemos (20) – Podemos",
-"PSDB (45) – Partido da Social Democracia Brasileira",
-"Cidadania (23) – Cidadania",
-"Solidariedade (77) – Solidariedade",
-"Avante (70) – Avante",
-"PMN (33) – Partido da Mobilização Nacional",
-"PV (43) – Partido Verde",
-"PUN (42) – Partido da União Nacional",
-"MPD (37) – Movimento Popular Democrático",
-"PDM (26) – Partido da Mudança",
-"MTB (63) – Movimento Trabalhista Brookasileiro",
-"PTD (46) – Partido Trabalhista Democrático",
-"PDSD (88) – Partido do Sindicato Democrata",
-"MSS (14) – Partido Missão"
-],
+  Centro: [
+    "MDB (15) – Movimento Democrático Brasileiro",
+    "UNIÃO (44) – União Brasil",
+    "PSD (55) – Partido Social Democrático",
+    "Podemos (20) – Podemos",
+    "PSDB (45) – Partido da Social Democracia Brasileira",
+    "Cidadania (23) – Cidadania",
+    "Solidariedade (77) – Solidariedade",
+    "Avante (70) – Avante",
+    "PMN (33) – Partido da Mobilização Nacional",
+    "PV (43) – Partido Verde",
+    "PUN (42) – Partido da União Nacional",
+    "MPD (37) – Movimento Popular Democrático",
+    "PDM (26) – Partido da Mudança",
+    "MTB (63) – Movimento Trabalhista Brookasileiro",
+    "PTD (46) – Partido Trabalhista Democrático",
+    "PDSD (88) – Partido do Sindicato Democrata",
+    "MSS (14) – Partido Missão"
+  ],
 
-Esquerda:[
-"PT (13) – Partido dos Trabalhadores",
-"PSOL (50) – Partido Socialismo e Liberdade",
-"PCdoB (65) – Partido Comunista do Brasil",
-"Rede (18) – Rede Sustentabilidade",
-"PDT (12) – Partido Democrático Trabalhista",
-"UP (80) – Unidade Popular",
-"PCO (29) – Partido da Causa Operária",
-"PCB (21) – Partido Comunista Brasileiro",
-"PSTU (16) – Partido Socialista dos Trabalhadores Unificado",
-"PPL (54) – Partido Pátria Livre",
-"PSB (40) – Partido Socialista Brasileiro",
-"PFS (60) – Partido da Frente Socialista",
-"PS (56) – Partido Socialista",
-"PSTN (31) – Partido Social Trabalhista Nacional"
-]
+  Esquerda: [
+    "PT (13) – Partido dos Trabalhadores",
+    "PSOL (50) – Partido Socialismo e Liberdade",
+    "PCdoB (65) – Partido Comunista do Brasil",
+    "Rede (18) – Rede Sustentabilidade",
+    "PDT (12) – Partido Democrático Trabalhista",
+    "UP (80) – Unidade Popular",
+    "PCO (29) – Partido da Causa Operária",
+    "PCB (21) – Partido Comunista Brasileiro",
+    "PSTU (16) – Partido Socialista dos Trabalhadores Unificado",
+    "PPL (54) – Partido Pátria Livre",
+    "PSB (40) – Partido Socialista Brasileiro",
+    "PFS (60) – Partido da Frente Socialista",
+    "PS (56) – Partido Socialista",
+    "PSTN (31) – Partido Social Trabalhista Nacional"
+  ]
 };
 
-lado.onchange=()=>{
-partido.innerHTML="";
-partidos[lado.value].forEach(p=>{
-let o=document.createElement("option");
-o.textContent=p;
-partido.appendChild(o);
+lado.addEventListener("change", () => {
+  partido.innerHTML = "<option value=''>Selecione</option>";
+  if (!partidos[lado.value]) return;
+
+  partidos[lado.value].forEach(p => {
+    const opt = document.createElement("option");
+    opt.value = p;
+    opt.textContent = p;
+    partido.appendChild(opt);
+  });
 });
-};
-
+  
 /* FILIAÇÃO */
 formFiliacao.onsubmit=e=>{
 e.preventDefault();
@@ -297,19 +296,60 @@ formFiliacao.reset();
 };
 
 /* CONTAGEM */
-db.ref("filiacoes").on("value",s=>{
-let d=s.val()||{},p={},z={};
-contadorPartidos.innerHTML="";
-contadorZonas.innerHTML="";
-listaFiliados.innerHTML="";
-Object.values(d).forEach(f=>{
-p[f.partido]=(p[f.partido]||0)+1;
-z[f.zona]=(z[f.zona]||0)+1;
-listaFiliados.innerHTML+=`<tr><td>${f.nome}</td><td>${f.cpf}</td><td>${f.zona}</td><td>${f.partido}</td><td>${f.tiktok}</td></tr>`;
-});
-for(let k in p)contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
-for(let k in z)contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
-total.textContent=Object.keys(d).length;
+db.ref("filiacoes").on("value", snapshot => {
+  const dados = snapshot.val() || {};
+
+  let partidosCount = {};
+  let zonasCount = {};
+
+  contadorPartidos.innerHTML = "";
+  contadorZonas.innerHTML = "";
+  listaFiliados.innerHTML = "";
+
+  let totalGeral = 0;
+
+  Object.values(dados).forEach(f => {
+    totalGeral++;
+
+    // CONTAGEM PARTIDOS
+    partidosCount[f.partido] = (partidosCount[f.partido] || 0) + 1;
+
+    // CONTAGEM ZONAS
+    zonasCount[f.zona] = (zonasCount[f.zona] || 0) + 1;
+
+    // LISTA ADM
+    listaFiliados.innerHTML += `
+      <tr>
+        <td>${f.nome}</td>
+        <td>${f.cpf}</td>
+        <td>${f.zona}</td>
+        <td>${f.partido}</td>
+        <td>${f.tiktok}</td>
+      </tr>
+    `;
+  });
+
+  // MOSTRAR PARTIDOS
+  for (let p in partidosCount) {
+    contadorPartidos.innerHTML += `
+      <tr>
+        <td>${p}</td>
+        <td>${partidosCount[p]}</td>
+      </tr>
+    `;
+  }
+
+  // MOSTRAR ZONAS
+  for (let z in zonasCount) {
+    contadorZonas.innerHTML += `
+      <tr>
+        <td>${z}</td>
+        <td>${zonasCount[z]}</td>
+      </tr>
+    `;
+  }
+
+  total.textContent = totalGeral;
 });
 
 /* ADM */
