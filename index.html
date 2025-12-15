@@ -5,17 +5,24 @@
 <title>Brookasil RP – Sistema</title>
 
 <style>
-body{font-family:Arial;background:#eef4f7;margin:0}
-header{background:#0a7cff;color:#fff;padding:20px;text-align:center}
-main{max-width:1200px;margin:auto;padding:20px}
-.box{background:#fff;padding:20px;border-radius:12px;margin-bottom:25px}
-label{font-weight:bold;display:block;margin-top:10px}
-input,select,textarea,button{width:100%;padding:8px;margin-top:5px}
-button{background:#0bb37b;color:#fff;border:none;border-radius:6px;cursor:pointer}
-.hidden{display:none}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{border:1px solid #ccc;padding:6px;text-align:center}
-th{background:#0a7cff;color:#fff}
+body {font-family: Arial, sans-serif; background: #eef4f7; margin: 0;}
+header {background: #0a7cff; color: #fff; padding: 20px; text-align: center;}
+main {max-width: 1200px; margin: auto; padding: 20px;}
+.box {background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 25px;}
+label {font-weight: bold; display: block; margin-top: 10px;}
+input, select, textarea, button {width: 100%; padding: 8px; margin-top: 5px; border-radius:6px; border:1px solid #ccc;}
+button {background: #0bb37b; color: #fff; border: none; cursor: pointer;}
+button:hover {opacity: 0.9;}
+.hidden {display: none;}
+table {width: 100%; border-collapse: collapse; margin-top: 10px;}
+th, td {border: 1px solid #ccc; padding: 6px; text-align: center;}
+th {background: #0a7cff; color: #fff;}
+/* Abas */
+.tab-buttons {display: flex; gap: 10px; margin-bottom: 20px;}
+.tab-buttons button {flex: 1; background: #0a7cff; color: #fff;}
+.tab-buttons button.active {background: #0bb37b;}
+.tab-content {display: none;}
+.tab-content.active {display: block;}
 </style>
 </head>
 
@@ -23,11 +30,17 @@ th{background:#0a7cff;color:#fff}
 <header><h1>🗳️ Brookasil RP</h1></header>
 <main>
 
+<!-- ABAS -->
+<div class="tab-buttons">
+  <button class="active" onclick="abrirAba('filiacoesTab', this)">📄 Filiações</button>
+  <button onclick="abrirAba('admTab', this)">🔐 Painel ADM</button>
+  <button onclick="abrirAba('obrasTab', this)">🏗️ Obras</button>
+</div>
+
 <!-- FILIAÇÃO -->
-<div class="box">
+<div id="filiacoesTab" class="tab-content active box">
 <h2>📄 Filiação</h2>
 <form id="formFiliacao">
-
 <label>Nome completo</label>
 <input id="nome" required>
 
@@ -43,32 +56,27 @@ th{background:#0a7cff;color:#fff}
 <label>Zona Eleitoral</label>
 <select id="zona" required>
   <option value="">Selecione</option>
-
   <optgroup label="BH">
     <option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option>
     <option>BH-05</option><option>BH-06</option><option>BH-07</option><option>BH-08</option>
     <option>BH-09</option><option>BH-10</option><option>BH-11</option><option>BH-12</option>
     <option>BH-13</option><option>BH-14</option>
   </optgroup>
-
   <optgroup label="NC">
     <option>NC-01</option><option>NC-02</option><option>NC-03</option><option>NC-04</option>
     <option>NC-05</option><option>NC-06</option><option>NC-07</option><option>NC-08</option>
     <option>NC-09</option><option>NC-10</option><option>NC-11</option>
   </optgroup>
-
   <optgroup label="CT">
     <option>CT-01</option><option>CT-02</option><option>CT-03</option><option>CT-04</option>
     <option>CT-05</option><option>CT-06</option><option>CT-07</option><option>CT-08</option>
     <option>CT-09</option><option>CT-10</option><option>CT-11</option><option>CT-12</option>
   </optgroup>
-
   <optgroup label="FM">
     <option>FM-01</option><option>FM-02</option><option>FM-03</option><option>FM-04</option>
     <option>FM-05</option><option>FM-06</option><option>FM-07</option><option>FM-08</option>
     <option>FM-09</option><option>FM-10</option>
   </optgroup>
-
   <optgroup label="FX">
     <option>FX-01</option><option>FX-02</option><option>FX-03</option><option>FX-04</option>
     <option>FX-05</option><option>FX-06</option><option>FX-07</option><option>FX-08</option>
@@ -76,7 +84,7 @@ th{background:#0a7cff;color:#fff}
     <option>FX-13</option><option>FX-14</option>
   </optgroup>
 </select>
-  
+
 <label>Lado Político</label>
 <select id="lado" required>
 <option value="">Selecione</option>
@@ -90,17 +98,12 @@ th{background:#0a7cff;color:#fff}
 
 <button>Confirmar</button>
 </form>
-</div>
 
-<!-- ESTATÍSTICAS -->
-<div class="box">
 <h2>📊 Estatísticas</h2>
-
 <table>
 <thead><tr><th>Partido</th><th>Total</th></tr></thead>
 <tbody id="contadorPartidos"></tbody>
 </table>
-
 <table>
 <thead><tr><th>Zona</th><th>Total</th></tr></thead>
 <tbody id="contadorZonas"></tbody>
@@ -108,7 +111,7 @@ th{background:#0a7cff;color:#fff}
 </div>
 
 <!-- PAINEL ADM -->
-<div class="box">
+<div id="admTab" class="tab-content box">
 <h2>🔐 Painel ADM</h2>
 <input type="password" id="senhaAdm" placeholder="Senha">
 <button onclick="entrarAdm()">Entrar</button>
@@ -117,9 +120,7 @@ th{background:#0a7cff;color:#fff}
 <p>Total de filiações: <b id="total"></b></p>
 <table>
 <thead>
-<tr>
-<th>Nome</th><th>CPF</th><th>Zona</th><th>Partido</th><th>TikTok</th>
-</tr>
+<tr><th>Nome</th><th>CPF</th><th>Zona</th><th>Partido</th><th>TikTok</th></tr>
 </thead>
 <tbody id="listaFiliados"></tbody>
 </table>
@@ -127,7 +128,7 @@ th{background:#0a7cff;color:#fff}
 </div>
 
 <!-- OBRAS -->
-<div class="box">
+<div id="obrasTab" class="tab-content box">
 <h2>🏗️ Registrar Obra</h2>
 <select id="cargoObra">
 <option value="">Cargo</option>
@@ -135,22 +136,16 @@ th{background:#0a7cff;color:#fff}
 <option>Governador</option>
 <option>Presidente</option>
 </select>
-
 <input type="password" id="senhaObra" placeholder="Senha do cargo">
 <input id="tituloObra" placeholder="Título">
 <textarea id="descricaoObra" placeholder="Descrição"></textarea>
 <input id="localObra" placeholder="Local">
-
 <button onclick="registrarObra()">Registrar</button>
-</div>
 
-<div class="box">
 <h2>📋 Obras</h2>
 <table>
 <thead>
-<tr>
-<th>Título</th><th>Cargo</th><th>Local</th><th>Descrição</th><th>Data</th><th>Ações</th>
-</tr>
+<tr><th>Título</th><th>Cargo</th><th>Local</th><th>Descrição</th><th>Data</th><th>Ações</th></tr>
 </thead>
 <tbody id="listaObras"></tbody>
 </table>
@@ -163,92 +158,31 @@ th{background:#0a7cff;color:#fff}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script>
-/* 🔥 FIREBASE — LINK CORRETO */
-firebase.initializeApp({
-  databaseURL: "https://filiacao-rp-default-rtdb.firebaseio.com"
-});
+firebase.initializeApp({databaseURL:"https://filiacao-rp-default-rtdb.firebaseio.com"});
 const db = firebase.database();
 
 /* PARTIDOS */
 const lado = document.getElementById("lado");
 const partido = document.getElementById("partido");
-
-const partidos = {
-  Direita: [
-    "PL (22) – Partido Liberal",
-    "PP (11) – Progressistas",
-    "Republicanos (10) – Republicanos",
-    "PRTN (75) – Partido Republicano Trabalhista Nacional",
-    "Patriota (51) – Patriota",
-    "PRTB (28) – Partido Renovador Trabalhista Brasileiro",
-    "NOVO (30) – Partido Novo",
-    "PMB (35) – Partido da Mulher Brasileira",
-    "DC (27) – Democracia Cristã",
-    "UDB (38) – União da Direita Brookasileira",
-    "Agir (36) – Agir",
-    "POL (81) – Partido da Ordem e Liberdade",
-    "ACN (84) – Aliança Cristã Nacional",
-    "PRONA (57) – Partido da Reedificação da Ordem Nacional",
-    "PDC (17) – Partido Democrata Cristão",
-    "PESP (48) – Partido da Esperança",
-    "PMNL (86) – Partido Militar Nacionalista"
-  ],
-
-  Centro: [
-    "MDB (15) – Movimento Democrático Brasileiro",
-    "UNIÃO (44) – União Brasil",
-    "PSD (55) – Partido Social Democrático",
-    "Podemos (20) – Podemos",
-    "PSDB (45) – Partido da Social Democracia Brasileira",
-    "Cidadania (23) – Cidadania",
-    "Solidariedade (77) – Solidariedade",
-    "Avante (70) – Avante",
-    "PMN (33) – Partido da Mobilização Nacional",
-    "PV (43) – Partido Verde",
-    "PUN (42) – Partido da União Nacional",
-    "MPD (37) – Movimento Popular Democrático",
-    "PDM (26) – Partido da Mudança",
-    "MTB (63) – Movimento Trabalhista Brookasileiro",
-    "PTD (46) – Partido Trabalhista Democrático",
-    "PDSD (88) – Partido do Sindicato Democrata",
-    "MSS (14) – Partido Missão"
-  ],
-
-  Esquerda: [
-    "PT (13) – Partido dos Trabalhadores",
-    "PSOL (50) – Partido Socialismo e Liberdade",
-    "PCdoB (65) – Partido Comunista do Brasil",
-    "Rede (18) – Rede Sustentabilidade",
-    "PDT (12) – Partido Democrático Trabalhista",
-    "UP (80) – Unidade Popular",
-    "PCO (29) – Partido da Causa Operária",
-    "PCB (21) – Partido Comunista Brasileiro",
-    "PSTU (16) – Partido Socialista dos Trabalhadores Unificado",
-    "PPL (54) – Partido Pátria Livre",
-    "PSB (40) – Partido Socialista Brasileiro",
-    "PFS (60) – Partido da Frente Socialista",
-    "PS (56) – Partido Socialista",
-    "PSTN (31) – Partido Social Trabalhista Nacional"
-  ]
+const lado = document.getElementById("lado");
+const partido = document.getElementById("partido");
+const partido = document.getElementById("partido"); const partidos = { Direita: [ "PL (22) – Partido Liberal", "PP (11) – Progressistas", "Republicanos (10) – Republicanos", "PRTN (75) – Partido Republicano Trabalhista Nacional", "Patriota (51) – Patriota", "PRTB (28) – Partido Renovador Trabalhista Brasileiro", "NOVO (30) – Partido Novo", "PMB (35) – Partido da Mulher Brasileira", "DC (27) – Democracia Cristã", "UDB (38) – União da Direita Brookasileira", "Agir (36) – Agir", "POL (81) – Partido da Ordem e Liberdade", "ACN (84) – Aliança Cristã Nacional", "PRONA (57) – Partido da Reedificação da Ordem Nacional", "PDC (17) – Partido Democrata Cristão", "PESP (48) – Partido da Esperança", "PMNL (86) – Partido Militar Nacionalista" ], Centro: [ "MDB (15) – Movimento Democrático Brasileiro", "UNIÃO (44) – União Brasil", "PSD (55) – Partido Social Democrático", "Podemos (20) – Podemos", "PSDB (45) – Partido da Social Democracia Brasileira", "Cidadania (23) – Cidadania", "Solidariedade (77) – Solidariedade", "Avante (70) – Avante", "PMN (33) – Partido da Mobilização Nacional", "PV (43) – Partido Verde", "PUN (42) – Partido da União Nacional", "MPD (37) – Movimento Popular Democrático", "PDM (26) – Partido da Mudança", "MTB (63) – Movimento Trabalhista Brookasileiro", "PTD (46) – Partido Trabalhista Democrático", "PDSD (88) – Partido do Sindicato Democrata", "MSS (14) – Partido Missão" ], Esquerda: [ "PT (13) – Partido dos Trabalhadores", "PSOL (50) – Partido Socialismo e Liberdade", "PCdoB (65) – Partido Comunista do Brasil", "Rede (18) – Rede Sustentabilidade", "PDT (12) – Partido Democrático Trabalhista", "UP (80) – Unidade Popular", "PCO (29) – Partido da Causa Operária", "PCB (21) – Partido Comunista Brasileiro", "PSTU (16) – Partido Socialista dos Trabalhadores Unificado", "PPL (54) – Partido Pátria Livre", "PSB (40) – Partido Socialista Brasileiro", "PFS (60) – Partido da Frente Socialista", "PS (56) – Partido Socialista", "PSTN (31) – Partido Social Trabalhista Nacional" ] };
 };
-
 lado.onchange = () => {
   partido.innerHTML = "<option value=''>Selecione</option>";
-  (partidos[lado.value]||[]).forEach(p=>{
-    partido.innerHTML += `<option>${p}</option>`;
-  });
+  (partidos[lado.value]||[]).forEach(p => partido.innerHTML += `<option>${p}</option>`);
 };
 
 /* FILIAÇÃO */
 formFiliacao.onsubmit = e => {
   e.preventDefault();
   db.ref("filiacoes").push({
-    nome:nome.value,
-    nascimento:nascimento.value,
-    cpf:cpf.value,
-    tiktok:tiktok.value,
-    zona:zona.value,
-    partido:partido.value
+    nome: nome.value,
+    nascimento: nascimento.value,
+    cpf: cpf.value,
+    tiktok: tiktok.value,
+    zona: zona.value,
+    partido: partido.value
   });
   formFiliacao.reset();
 };
@@ -257,54 +191,35 @@ formFiliacao.onsubmit = e => {
 db.ref("filiacoes").on("value", s => {
   const d = s.val() || {};
   let p={}, z={}, totalG=0;
-
   contadorPartidos.innerHTML="";
   contadorZonas.innerHTML="";
   listaFiliados.innerHTML="";
-
   Object.values(d).forEach(f=>{
     totalG++;
     p[f.partido]=(p[f.partido]||0)+1;
     z[f.zona]=(z[f.zona]||0)+1;
-
-    listaFiliados.innerHTML += `
-      <tr>
-        <td>${f.nome}</td>
-        <td>${f.cpf}</td>
-        <td>${f.zona}</td>
-        <td>${f.partido}</td>
-        <td>${f.tiktok}</td>
-      </tr>`;
+    listaFiliados.innerHTML += `<tr>
+      <td>${f.nome}</td><td>${f.cpf}</td><td>${f.zona}</td><td>${f.partido}</td><td>${f.tiktok}</td>
+    </tr>`;
   });
-
   for(let k in p) contadorPartidos.innerHTML += `<tr><td>${k}</td><td>${p[k]}</td></tr>`;
   for(let k in z) contadorZonas.innerHTML += `<tr><td>${k}</td><td>${z[k]}</td></tr>`;
-
   total.textContent = totalG;
 });
 
 /* ADM */
-function entrarAdm(){
-  if(senhaAdm.value==="Brookasil1234")
+let admLogado = false;
+function entrarAdm() {
+  if(senhaAdm.value === "Brookasil1234") {
     areaAdm.classList.remove("hidden");
+    admLogado = true;
+  }
 }
 
 /* OBRAS */
 const SENHAS = {Prefeito:"popo30", Governador:"caiado44", Presidente:"henrique44"};
-let admLogado = false; // flag para saber se o ADM entrou
-
-function entrarAdm(){
-  if(senhaAdm.value === "Brookasil1234") {
-    areaAdm.classList.remove("hidden");
-    admLogado = true; // você está logado como ADM
-  }
-}
-
 function registrarObra(){
-  if(SENHAS[cargoObra.value] !== senhaObra.value) {
-    return alert("Senha errada");
-  }
-
+  if(SENHAS[cargoObra.value] !== senhaObra.value) return alert("Senha errada");
   db.ref("obras").push({
     cargo: cargoObra.value,
     titulo: tituloObra.value,
@@ -313,23 +228,23 @@ function registrarObra(){
     data: new Date().toLocaleDateString("pt-BR")
   });
 }
-
 db.ref("obras").on("value", s => {
   listaObras.innerHTML = "";
-  Object.entries(s.val() || {}).forEach(([id, o]) => {
-    listaObras.innerHTML += `
-      <tr>
-        <td>${o.titulo}</td>
-        <td>${o.cargo}</td>
-        <td>${o.local}</td>
-        <td>${o.descricao}</td>
-        <td>${o.data}</td>
-        <td>${admLogado ? `<button onclick="db.ref('obras/${id}').remove()">🗑️</button>` : ""}</td>
-      </tr>
-    `;
+  Object.entries(s.val() || {}).forEach(([id,o])=>{
+    listaObras.innerHTML += `<tr>
+      <td>${o.titulo}</td><td>${o.cargo}</td><td>${o.local}</td><td>${o.descricao}</td><td>${o.data}</td>
+      <td>${admLogado?`<button onclick="db.ref('obras/${id}').remove()">🗑️</button>`:""}</td>
+    </tr>`;
   });
 });
-</script>
 
+/* ABAS */
+function abrirAba(id, btn){
+  document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+  document.querySelectorAll(".tab-buttons button").forEach(b => b.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  btn.classList.add("active");
+}
+</script>
 </body>
 </html>
