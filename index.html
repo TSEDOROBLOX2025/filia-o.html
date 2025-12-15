@@ -2,52 +2,43 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Brookasil – Sistema Oficial</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brookasil RP – Sistema</title>
 <style>
 body{font-family:Arial;background:#eef4f7;margin:0}
-header{background:linear-gradient(90deg,#0a7cff,#0bb37b);color:#fff;padding:20px;text-align:center}
-nav{display:flex;gap:10px;justify-content:center;background:#fff;padding:10px}
-nav button{padding:10px;border:none;border-radius:6px;cursor:pointer}
+header{background:#0a7cff;color:#fff;padding:20px;text-align:center}
 main{max-width:1200px;margin:auto;padding:20px}
-.box{background:#fff;padding:20px;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,.1);margin-bottom:25px}
+.box{background:#fff;padding:20px;border-radius:12px;margin-bottom:25px}
+label{font-weight:bold;display:block;margin-top:10px}
+input,select,textarea,button{width:100%;padding:8px;margin-top:5px}
+button{background:#0bb37b;color:#fff;border:none;border-radius:6px;cursor:pointer}
 .hidden{display:none}
-label{font-weight:bold;margin-top:10px;display:block}
-input,select,textarea,button{width:100%;padding:10px;margin-top:5px}
-button{background:#0bb37b;color:#fff;border:none;border-radius:6px}
 table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{border:1px solid #ccc;padding:6px;text-align:center;font-size:13px}
+th,td{border:1px solid #ccc;padding:6px;text-align:center}
 th{background:#0a7cff;color:#fff}
 </style>
 </head>
 
 <body>
-
-<header>
-<h1>🗳️ Sistema Oficial – Brookasil</h1>
-<p>Filiação Partidária & Registro de Obras</p>
-</header>
-
-<nav>
-<button onclick="mostrar('filiacao')">📄 Filiação</button>
-<button onclick="mostrar('obras')">🏗️ Obras</button>
-<button onclick="mostrar('adm')">🔐 ADM</button>
-</nav>
-
+<header><h1>🗳️ Brookasil RP</h1></header>
 <main>
 
-<!-- ================= FILIAÇÃO ================= -->
-<div id="filiacao" class="box">
-<h2>📄 Filiação Partidária</h2>
-
+<!-- FILIAÇÃO -->
+<div class="box">
+<h2>📄 Filiação</h2>
 <form id="formFiliacao">
-<label>Nome</label><input id="nome" required>
+
+<label>Nome completo</label>
+<input id="nome" required>
+
+<label>Data de nascimento</label>
+<input type="date" id="nascimento" required>
+
 <label>CPF (RP)</label>
-<input
-  type="text"
-  id="cpf"
-  placeholder="000.000.000-00"
-  required>
+<input type="number" id="cpf" inputmode="numeric" required>
+
+<label>TikTok</label>
+<input id="tiktok" required>
+
 <label>Zona Eleitoral</label>
 <select id="zona" required>
   <option value="">Selecione</option>
@@ -84,7 +75,7 @@ th{background:#0a7cff;color:#fff}
     <option>FX-13</option><option>FX-14</option>
   </optgroup>
 </select>
- 
+
 <label>Lado Político</label>
 <select id="lado" required>
 <option value="">Selecione</option>
@@ -94,97 +85,80 @@ th{background:#0a7cff;color:#fff}
 </select>
 
 <label>Partido</label>
-<select id="partido" required>
-<option value="">Selecione o lado</option>
-</select>
+<select id="partido" required></select>
 
-<button type="submit">Confirmar</button>
+<button>Confirmar</button>
 </form>
-
-<h3>📊 Partidos</h3>
-<table><tbody id="contadorPartidos"></tbody></table>
-
-<h3>🗺️ Zonas</h3>
-<table><tbody id="contadorZonas"></tbody></table>
 </div>
 
-<!-- ================= OBRAS ================= -->
-<div id="obras" class="box hidden">
-<h2>🏗️ Registro de Obras</h2>
+<!-- ESTATÍSTICAS -->
+<div class="box">
+<h2>📊 Estatísticas</h2>
+<table><thead><tr><th>Partido</th><th>Total</th></tr></thead>
+<tbody id="contadorPartidos"></tbody></table>
 
-<form id="formObra">
-<label>Nome da obra</label>
-<input id="obraNome" required>
+<table><thead><tr><th>Zona</th><th>Total</th></tr></thead>
+<tbody id="contadorZonas"></tbody></table>
+</div>
 
-<label>Cargo</label>
-<select id="obraCargo" required>
-<option value="">Selecione</option>
+<!-- PAINEL ADM -->
+<div class="box">
+<h2>🔐 Painel ADM</h2>
+<input type="password" id="senhaAdm" placeholder="Senha">
+<button onclick="entrarAdm()">Entrar</button>
+
+<div id="areaAdm" class="hidden">
+<p>Total: <b id="total"></b></p>
+<table>
+<thead><tr><th>Nome</th><th>CPF</th><th>Zona</th><th>Partido</th><th>TikTok</th></tr></thead>
+<tbody id="listaFiliados"></tbody>
+</table>
+</div>
+</div>
+
+<!-- OBRAS -->
+<div class="box">
+<h2>🏗️ Registrar Obra</h2>
+<select id="cargoObra">
+<option value="">Cargo</option>
 <option>Prefeito</option>
 <option>Governador</option>
 <option>Presidente</option>
 </select>
+<input type="password" id="senhaObra" placeholder="Senha do cargo">
+<input id="tituloObra" placeholder="Título">
+<textarea id="descricaoObra" placeholder="Descrição"></textarea>
+<input id="localObra" placeholder="Local">
+<button onclick="registrarObra()">Registrar</button>
+</div>
 
-<label>Local (Cidade / Estado / País)</label>
-<input id="obraLocal" required>
-
-<label>Descrição</label>
-<textarea id="obraDesc" required></textarea>
-
-<label>Senha do cargo</label>
-<input type="password" id="obraSenha" required>
-
-<button type="submit">Registrar Obra</button>
-</form>
-
+<div class="box">
+<h2>📋 Obras</h2>
 <table>
-<thead><tr><th>Obra</th><th>Cargo</th><th>Local</th></tr></thead>
+<thead><tr><th>Título</th><th>Cargo</th><th>Local</th><th>Descrição</th><th>Data</th><th>Ações</th></tr></thead>
 <tbody id="listaObras"></tbody>
 </table>
 </div>
 
-<!-- ================= ADM ================= -->
-<div id="adm" class="box hidden">
-<h2>🔐 Painel ADM</h2>
-<input type="password" id="senhaAdm" placeholder="Senha ADM">
-<button onclick="entrarAdm()">Entrar</button>
-
-<div id="areaAdm" class="hidden">
-<p><b>Total Filiações:</b> <span id="totalF"></span></p>
-<p><b>Total Obras:</b> <span id="totalO"></span></p>
-<button onclick="apagarTudo()" style="background:#d9534f">🗑️ Apagar tudo</button>
-</div>
-</div>
-
 </main>
 
-<!-- ================= FIREBASE ================= -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script>
 firebase.initializeApp({
- apiKey: "SUA_API_KEY",
- authDomain: "filiacao-rp.firebaseapp.com",
- databaseURL: "https://filiacao-rp-default-rtdb.firebaseio.com",
- projectId: "filiacao-rp"
+databaseURL:"https://filiacao-rp-default-rtdb.firebaseio.com"
 });
-const db = firebase.database();
-</script>
+const db=firebase.database();
 
-<script>
-const SENHA_ADM = "Brookasil1234";
-const SENHAS_CARGOS = {
- Prefeito:"pópó30",
- Governador:"caiado44",
- Presidente:"henrique44"
-};
-
+/* PARTIDOS */
 const partidos = {
 Direita:[
 "PL (22) – Partido Liberal",
 "PP (11) – Progressistas",
 "Republicanos (10) – Republicanos",
-"PRTN (75) – Partido Republicano Trabalhista Nacional",
+"PRTN (75) – Partido Republicano Trabalhista Nacional"
 "Patriota (51) – Patriota",
 "PRTB (28) – Partido Renovador Trabalhista Brasileiro",
 "NOVO (30) – Partido Novo",
@@ -239,72 +213,79 @@ Esquerda:[
 };
 
 lado.onchange=()=>{
- partido.innerHTML="<option></option>";
- partidos[lado.value].forEach(p=>{
-  let o=document.createElement("option");
-  o.textContent=p;
-  partido.appendChild(o);
- });
+partido.innerHTML="";
+partidos[lado.value].forEach(p=>{
+let o=document.createElement("option");
+o.textContent=p;
+partido.appendChild(o);
+});
 };
 
+/* FILIAÇÃO */
 formFiliacao.onsubmit=e=>{
- e.preventDefault();
- db.ref("filiacoes").push({nome:nome.value,zona:zona.value,partido:partido.value});
- formFiliacao.reset();
+e.preventDefault();
+db.ref("filiacoes").push({
+nome:nome.value,
+nascimento:nascimento.value,
+cpf:cpf.value,
+tiktok:tiktok.value,
+zona:zona.value,
+partido:partido.value
+});
+formFiliacao.reset();
 };
 
+/* CONTAGEM */
 db.ref("filiacoes").on("value",s=>{
- let d=s.val()||{},p={},z={};
- contadorPartidos.innerHTML="";
- contadorZonas.innerHTML="";
- Object.values(d).forEach(f=>{
-  p[f.partido]=(p[f.partido]||0)+1;
-  z[f.zona]=(z[f.zona]||0)+1;
- });
- for(let k in p)contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
- for(let k in z)contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
- total.textContent=Object.keys(d).length;
+let d=s.val()||{},p={},z={};
+contadorPartidos.innerHTML="";
+contadorZonas.innerHTML="";
+listaFiliados.innerHTML="";
+Object.values(d).forEach(f=>{
+p[f.partido]=(p[f.partido]||0)+1;
+z[f.zona]=(z[f.zona]||0)+1;
+listaFiliados.innerHTML+=`<tr><td>${f.nome}</td><td>${f.cpf}</td><td>${f.zona}</td><td>${f.partido}</td><td>${f.tiktok}</td></tr>`;
+});
+for(let k in p)contadorPartidos.innerHTML+=`<tr><td>${k}</td><td>${p[k]}</td></tr>`;
+for(let k in z)contadorZonas.innerHTML+=`<tr><td>${k}</td><td>${z[k]}</td></tr>`;
+total.textContent=Object.keys(d).length;
 });
 
-formObra.onsubmit=e=>{
- e.preventDefault();
- if(SENHAS_CARGOS[obraCargo.value]!==obraSenha.value){
-  alert("Senha inválida");
-  return;
- }
- db.ref("obras").push({
-  nome:obraNome.value,
-  cargo:obraCargo.value,
-  local:obraLocal.value,
-  desc:obraDesc.value
- });
- formObra.reset();
-};
+/* ADM */
+function entrarAdm(){
+if(senhaAdm.value==="Brookasil1234") areaAdm.classList.remove("hidden");
+}
+
+/* OBRAS */
+const SENHAS={Prefeito:"popo30",Governador:"caiado44",Presidente:"henrique44"};
+
+function registrarObra(){
+if(SENHAS[cargoObra.value]!==senhaObra.value) return alert("Senha errada");
+db.ref("obras").push({
+cargo:cargoObra.value,
+titulo:tituloObra.value,
+descricao:descricaoObra.value,
+local:localObra.value,
+data:new Date().toLocaleDateString("pt-BR")
+});
+}
 
 db.ref("obras").on("value",s=>{
- let d=s.val()||{};
- listaObras.innerHTML="";
- Object.values(d).forEach(o=>{
-  listaObras.innerHTML+=`<tr><td>${o.nome}</td><td>${o.cargo}</td><td>${o.local}</td></tr>`;
- });
- totalO.textContent=Object.keys(d).length;
+listaObras.innerHTML="";
+Object.entries(s.val()||{}).forEach(([id,o])=>{
+listaObras.innerHTML+=`
+<tr>
+<td>${o.titulo}</td>
+<td>${o.cargo}</td>
+<td>${o.local}</td>
+<td>${o.descricao}</td>
+<td>${o.data}</td>
+<td>
+<button onclick="db.ref('obras/${id}').remove()">🗑️</button>
+</td>
+</tr>`;
 });
-
-function entrarAdm(){
- if(senhaAdm.value===SENHA_ADM)areaAdm.classList.remove("hidden");
- else alert("Senha incorreta");
-}
-
-function apagarTudo(){
- if(confirm("Apagar TUDO?")){
-  db.ref().remove();
- }
-}
-
-function mostrar(id){
- document.querySelectorAll(".box").forEach(b=>b.classList.add("hidden"));
- document.getElementById(id).classList.remove("hidden");
-}
+});
 </script>
 
 </body>
