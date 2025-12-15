@@ -96,7 +96,7 @@ th {background: #0a7cff; color: #fff;}
 <label>Partido</label>
 <select id="partido" required></select>
 
-<button>Confirmar</button>
+<button type="submit">Confirmar</button>
 </form>
 
 <h2>📊 Estatísticas</h2>
@@ -164,13 +164,42 @@ const db = firebase.database();
 /* PARTIDOS */
 const lado = document.getElementById("lado");
 const partido = document.getElementById("partido");
-const lado = document.getElementById("lado");
-const partido = document.getElementById("partido");
-const partido = document.getElementById("partido"); const partidos = { Direita: [ "PL (22) – Partido Liberal", "PP (11) – Progressistas", "Republicanos (10) – Republicanos", "PRTN (75) – Partido Republicano Trabalhista Nacional", "Patriota (51) – Patriota", "PRTB (28) – Partido Renovador Trabalhista Brasileiro", "NOVO (30) – Partido Novo", "PMB (35) – Partido da Mulher Brasileira", "DC (27) – Democracia Cristã", "UDB (38) – União da Direita Brookasileira", "Agir (36) – Agir", "POL (81) – Partido da Ordem e Liberdade", "ACN (84) – Aliança Cristã Nacional", "PRONA (57) – Partido da Reedificação da Ordem Nacional", "PDC (17) – Partido Democrata Cristão", "PESP (48) – Partido da Esperança", "PMNL (86) – Partido Militar Nacionalista" ], Centro: [ "MDB (15) – Movimento Democrático Brasileiro", "UNIÃO (44) – União Brasil", "PSD (55) – Partido Social Democrático", "Podemos (20) – Podemos", "PSDB (45) – Partido da Social Democracia Brasileira", "Cidadania (23) – Cidadania", "Solidariedade (77) – Solidariedade", "Avante (70) – Avante", "PMN (33) – Partido da Mobilização Nacional", "PV (43) – Partido Verde", "PUN (42) – Partido da União Nacional", "MPD (37) – Movimento Popular Democrático", "PDM (26) – Partido da Mudança", "MTB (63) – Movimento Trabalhista Brookasileiro", "PTD (46) – Partido Trabalhista Democrático", "PDSD (88) – Partido do Sindicato Democrata", "MSS (14) – Partido Missão" ], Esquerda: [ "PT (13) – Partido dos Trabalhadores", "PSOL (50) – Partido Socialismo e Liberdade", "PCdoB (65) – Partido Comunista do Brasil", "Rede (18) – Rede Sustentabilidade", "PDT (12) – Partido Democrático Trabalhista", "UP (80) – Unidade Popular", "PCO (29) – Partido da Causa Operária", "PCB (21) – Partido Comunista Brasileiro", "PSTU (16) – Partido Socialista dos Trabalhadores Unificado", "PPL (54) – Partido Pátria Livre", "PSB (40) – Partido Socialista Brasileiro", "PFS (60) – Partido da Frente Socialista", "PS (56) – Partido Socialista", "PSTN (31) – Partido Social Trabalhista Nacional" ] };
+
+const partidos = {
+  Direita: [
+    "PL (22) – Partido Liberal", "PP (11) – Progressistas", "Republicanos (10) – Republicanos",
+    "PRTN (75) – Partido Republicano Trabalhista Nacional", "Patriota (51) – Patriota",
+    "PRTB (28) – Partido Renovador Trabalhista Brasileiro", "NOVO (30) – Partido Novo",
+    "PMB (35) – Partido da Mulher Brasileira", "DC (27) – Democracia Cristã",
+    "UDB (38) – União da Direita Brookasileira", "Agir (36) – Agir", "POL (81) – Partido da Ordem e Liberdade",
+    "ACN (84) – Aliança Cristã Nacional", "PRONA (57) – Partido da Reedificação da Ordem Nacional",
+    "PDC (17) – Partido Democrata Cristão", "PESP (48) – Partido da Esperança",
+    "PMNL (86) – Partido Militar Nacionalista"
+  ],
+  Centro: [
+    "MDB (15) – Movimento Democrático Brasileiro", "UNIÃO (44) – União Brasil",
+    "PSD (55) – Partido Social Democrático", "Podemos (20) – Podemos",
+    "PSDB (45) – Partido da Social Democracia Brasileira", "Cidadania (23) – Cidadania",
+    "Solidariedade (77) – Solidariedade", "Avante (70) – Avante", "PMN (33) – Partido da Mobilização Nacional",
+    "PV (43) – Partido Verde", "PUN (42) – Partido da União Nacional",
+    "MPD (37) – Movimento Popular Democrático", "PDM (26) – Partido da Mudança",
+    "MTB (63) – Movimento Trabalhista Brookasileiro", "PTD (46) – Partido Trabalhista Democrático",
+    "PDSD (88) – Partido do Sindicato Democrata", "MSS (14) – Partido Missão"
+  ],
+  Esquerda: [
+    "PT (13) – Partido dos Trabalhadores", "PSOL (50) – Partido Socialismo e Liberdade",
+    "PCdoB (65) – Partido Comunista do Brasil", "Rede (18) – Rede Sustentabilidade",
+    "PDT (12) – Partido Democrático Trabalhista", "UP (80) – Unidade Popular",
+    "PCO (29) – Partido da Causa Operária", "PCB (21) – Partido Comunista Brasileiro",
+    "PSTU (16) – Partido Socialista dos Trabalhadores Unificado", "PPL (54) – Partido Pátria Livre",
+    "PSB (40) – Partido Socialista Brasileiro", "PFS (60) – Partido da Frente Socialista",
+    "PS (56) – Partido Socialista", "PSTN (31) – Partido Social Trabalhista Nacional"
+  ]
 };
+
 lado.onchange = () => {
   partido.innerHTML = "<option value=''>Selecione</option>";
-  (partidos[lado.value]||[]).forEach(p => partido.innerHTML += `<option>${p}</option>`);
+  (partidos[lado.value] || []).forEach(p => partido.innerHTML += `<option>${p}</option>`);
 };
 
 /* FILIAÇÃO */
@@ -228,6 +257,7 @@ function registrarObra(){
     data: new Date().toLocaleDateString("pt-BR")
   });
 }
+
 db.ref("obras").on("value", s => {
   listaObras.innerHTML = "";
   Object.entries(s.val() || {}).forEach(([id,o])=>{
