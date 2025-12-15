@@ -147,6 +147,67 @@ th{background:#0a7cff;color:#fff}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script>
+/* 🔥 CONFIG FIREBASE */
+const firebaseConfig = {
+  databaseURL: "https://filiacao-rp.firebaseio.com"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+/* 📋 ELEMENTOS */
+const lista = document.getElementById("listaFiliacoes");
+const contadorPartidos = document.getElementById("contadorPartidos");
+const contadorZonas = document.getElementById("contadorZonas");
+const total = document.getElementById("total");
+
+/* 📥 LER FILIAÇÕES */
+db.ref("filiacoes").on("value", snap => {
+  const dados = snap.val();
+  lista.innerHTML = "";
+  contadorPartidos.innerHTML = "";
+  contadorZonas.innerHTML = "";
+
+  if (!dados) {
+    lista.innerHTML = "<p>Nenhuma filiação encontrada.</p>";
+    total.textContent = "0";
+    return;
+  }
+
+  let p = {}, z = {};
+  let totalCount = 0;
+
+  Object.values(dados).forEach(f => {
+    totalCount++;
+
+    /* LISTA ADM */
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <b>${f.nome}</b><br>
+      🎂 Nascimento: ${f.nascimento}<br>
+      🆔 CPF: ${f.cpf}<br>
+      🎵 TikTok: ${f.tiktok}<br>
+      🗳️ Partido: ${f.partido}<br>
+      📍 Zona: ${f.zona}
+      <hr>
+    `;
+    lista.appendChild(div);
+
+    /* CONTADORES */
+    p[f.partido] = (p[f.partido] || 0) + 1;
+    z[f.zona] = (z[f.zona] || 0) + 1;
+  });
+
+  for (let k in p)
+    contadorPartidos.innerHTML += `<tr><td>${k}</td><td>${p[k]}</td></tr>`;
+
+  for (let k in z)
+    contadorZonas.innerHTML += `<tr><td>${k}</td><td>${z[k]}</td></tr>`;
+
+  total.textContent = totalCount;
+});
+</script>
+
+<script>
 firebase.initializeApp({
 databaseURL:"https://filiacao-rp-default-rtdb.firebaseio.com"
 });
