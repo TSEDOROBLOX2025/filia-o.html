@@ -30,14 +30,12 @@ th {background: #0a7cff; color: #fff;}
 <header><h1>🗳️ Brookasil RP</h1></header>
 <main>
 
-<!-- ABAS -->
 <div class="tab-buttons">
   <button class="active" onclick="abrirAba('filiacoesTab', this)">📄 Filiações</button>
   <button onclick="abrirAba('admTab', this)">🔐 Painel ADM</button>
   <button onclick="abrirAba('obrasTab', this)">🏗️ Obras</button>
 </div>
 
-<!-- FILIAÇÃO -->
 <div id="filiacoesTab" class="tab-content active box">
 <h2>📄 Filiação</h2>
 <form id="formFiliacao">
@@ -96,6 +94,16 @@ th {background: #0a7cff; color: #fff;}
 <label>Partido</label>
 <select id="partido" required></select>
 
+<label>Pretensão de Cargo</label>
+<select id="cargoPretendido" required>
+<option value="">Selecione a Pretensão</option>
+<option>Eleitor/Apoiador</option>
+<option>Candidato a Vereador</option>
+<option>Candidato a Prefeito</option>
+<option>Candidato a Deputado</option>
+<option>Candidato a Governador</option>
+<option>Candidato a Presidente</option>
+</select>
 <button type="submit">Confirmar</button>
 </form>
 
@@ -110,7 +118,6 @@ th {background: #0a7cff; color: #fff;}
 </table>
 </div>
 
-<!-- PAINEL ADM -->
 <div id="admTab" class="tab-content box">
 <h2>🔐 Painel ADM</h2>
 <input type="password" id="senhaAdm" placeholder="Senha">
@@ -120,14 +127,13 @@ th {background: #0a7cff; color: #fff;}
 <p>Total de filiações: <b id="total"></b></p>
 <table>
 <thead>
-<tr><th>Nome</th><th>CPF</th><th>Zona</th><th>Partido</th><th>TikTok</th></tr>
+<tr><th>Nome</th><th>CPF</th><th>Zona</th><th>Partido</th><th>Cargo</th><th>TikTok</th></tr>
 </thead>
 <tbody id="listaFiliados"></tbody>
 </table>
 </div>
 </div>
 
-<!-- OBRAS -->
 <div id="obrasTab" class="tab-content box">
 <h2>🏗️ Registrar Obra</h2>
 <select id="cargoObra">
@@ -153,7 +159,6 @@ th {background: #0a7cff; color: #fff;}
 
 </main>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
@@ -161,9 +166,10 @@ th {background: #0a7cff; color: #fff;}
 firebase.initializeApp({databaseURL:"https://filiacao-rp-default-rtdb.firebaseio.com"});
 const db = firebase.database();
 
-/* PARTIDOS */
+/* NOVAS VARIÁVEIS PARA O CAMPO DE CARGO */
 const lado = document.getElementById("lado");
 const partido = document.getElementById("partido");
+const cargoPretendido = document.getElementById("cargoPretendido");
 
 const partidos = {
   Direita: [
@@ -211,7 +217,8 @@ formFiliacao.onsubmit = e => {
     cpf: cpf.value,
     tiktok: tiktok.value,
     zona: zona.value,
-    partido: partido.value
+    partido: partido.value,
+    cargoPretendido: cargoPretendido.value // SALVANDO O NOVO CAMPO
   });
   formFiliacao.reset();
 };
@@ -227,8 +234,9 @@ db.ref("filiacoes").on("value", s => {
     totalG++;
     p[f.partido]=(p[f.partido]||0)+1;
     z[f.zona]=(z[f.zona]||0)+1;
+    // INCLUINDO A COLUNA "CARGO" NO PAINEL ADM
     listaFiliados.innerHTML += `<tr>
-      <td>${f.nome}</td><td>${f.cpf}</td><td>${f.zona}</td><td>${f.partido}</td><td>${f.tiktok}</td>
+      <td>${f.nome}</td><td>${f.cpf}</td><td>${f.zona}</td><td>${f.partido}</td><td>${f.cargoPretendido || 'N/A'}</td><td>${f.tiktok}</td>
     </tr>`;
   });
   for(let k in p) contadorPartidos.innerHTML += `<tr><td>${k}</td><td>${p[k]}</td></tr>`;
