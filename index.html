@@ -2,161 +2,136 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Brookasil RP – Sistema</title>
-
+<title>Brookasil RP – Sistema Governamental</title>
 <style>
-body {font-family: Arial, sans-serif; background: #eef4f7; margin: 0;}
-header {background: #0a7cff; color: #fff; padding: 20px; text-align: center;}
-main {max-width: 1200px; margin: auto; padding: 20px;}
-.box {background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 25px;}
-label {font-weight: bold; display: block; margin-top: 10px;}
-input, select, textarea, button {width: 100%; padding: 8px; margin-top: 5px; border-radius:6px; border:1px solid #ccc;}
-button {background: #0bb37b; color: #fff; border: none; cursor: pointer;}
-button:hover {opacity: 0.9;}
-.hidden {display: none;}
-table {width: 100%; border-collapse: collapse; margin-top: 10px;}
-th, td {border: 1px solid #ccc; padding: 6px; text-align: center;}
-th {background: #0a7cff; color: #fff;}
-/* Abas */
-.tab-buttons {display: flex; gap: 10px; margin-bottom: 20px;}
-.tab-buttons button {flex: 1; background: #0a7cff; color: #fff;}
-.tab-buttons button.active {background: #0bb37b;}
-.tab-content {display: none;}
-.tab-content.active {display: block;}
+    body {font-family: 'Segoe UI', Arial, sans-serif; background: #eef4f7; margin: 0; color: #333;}
+    header {background: #0a7cff; color: #fff; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+    main {max-width: 1200px; margin: auto; padding: 20px;}
+    .box {background: #fff; padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
+    label {font-weight: bold; display: block; margin-top: 15px; color: #555;}
+    input, select, textarea, button {width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;}
+    button {background: #0bb37b; color: #fff; border: none; cursor: pointer; font-weight: bold; transition: background 0.3s;}
+    button:hover {background: #098a5e;}
+    .hidden {display: none;}
+    table {width: 100%; border-collapse: collapse; margin-top: 15px;}
+    th, td {border: 1px solid #eee; padding: 10px; text-align: center; font-size: 13px;}
+    th {background: #0a7cff; color: #fff;}
+    tr:nth-child(even) {background: #fdfdfd;}
+    .tab-buttons {display: flex; gap: 10px; margin-bottom: 20px;}
+    .tab-buttons button {flex: 1; background: #fff; color: #0a7cff; border: 1px solid #0a7cff;}
+    .tab-buttons button.active {background: #0a7cff; color: #fff;}
+    .tab-content {display: none;}
+    .tab-content.active {display: block; animation: fadeIn 0.4s;}
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 </style>
 </head>
-
 <body>
-<header><h1>🗳️ Brookasil RP</h1></header>
+
+<header><h1>🗳️ Brookasil RP - Tribunal Superior Eleitoral</h1></header>
+
 <main>
+    <div class="tab-buttons">
+        <button class="active" onclick="abrirAba('filiacoesTab', this)">📄 Filiações</button>
+        <button onclick="abrirAba('obrasTab', this)">🏗️ Mural de Obras</button>
+        <button onclick="abrirAba('admTab', this)">🔐 Painel ADM</button>
+    </div>
 
-<div class="tab-buttons">
-  <button class="active" onclick="abrirAba('filiacoesTab', this)">📄 Filiações</button>
-  <button onclick="abrirAba('admTab', this)">🔐 Painel ADM</button>
-  <button onclick="abrirAba('obrasTab', this)">🏗️ Obras</button>
-</div>
+    <div id="filiacoesTab" class="tab-content active box">
+        <h2>📄 Ficha de Filiação</h2>
+        <form id="formFiliacao">
+            <label>Nome completo</label>
+            <input id="nome" required>
+            <label>Data de nascimento</label>
+            <input type="date" id="nascimento" required>
+            <label>CPF (Passaporte)</label>
+            <input id="cpf" type="number" required>
+            <label>TikTok</label>
+            <input id="tiktok" required>
 
-<div id="filiacoesTab" class="tab-content active box">
-<h2>📄 Filiação</h2>
-<form id="formFiliacao">
-<label>Nome completo</label>
-<input id="nome" required>
+            <label>Zona Eleitoral</label>
+            <select id="zona" required>
+                <option value="">Selecione</option>
+                <optgroup label="BH (Belo Horizonte)">
+                    <option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option><option>BH-05</option><option>BH-06</option><option>BH-07</option><option>BH-08</option><option>BH-09</option><option>BH-10</option><option>BH-11</option><option>BH-12</option><option>BH-13</option><option>BH-14</option>
+                </optgroup>
+                <optgroup label="NC (Nova Capital)">
+                    <option>NC-01</option><option>NC-02</option><option>NC-03</option><option>NC-04</option><option>NC-05</option><option>NC-06</option><option>NC-07</option><option>NC-08</option><option>NC-09</option><option>NC-10</option><option>NC-11</option>
+                </optgroup>
+                <optgroup label="CT (Cidades Terciárias)">
+                    <option>CT-01</option><option>CT-02</option><option>CT-03</option><option>CT-04</option><option>CT-05</option><option>CT-06</option><option>CT-07</option><option>CT-08</option><option>CT-09</option><option>CT-10</option><option>CT-11</option><option>CT-12</option>
+                </optgroup>
+                <optgroup label="FM (Farms)">
+                    <option>FM-01</option><option>FM-02</option><option>FM-03</option><option>FM-04</option><option>FM-05</option><option>FM-06</option><option>FM-07</option><option>FM-08</option><option>FM-09</option><option>FM-10</option>
+                </optgroup>
+                <optgroup label="FX (Favelas/Complexos)">
+                    <option>FX-01</option><option>FX-02</option><option>FX-03</option><option>FX-04</option><option>FX-05</option><option>FX-06</option><option>FX-07</option><option>FX-08</option><option>FX-09</option><option>FX-10</option><option>FX-11</option><option>FX-12</option><option>FX-13</option><option>FX-14</option>
+                </optgroup>
+            </select>
 
-<label>Data de nascimento</label>
-<input type="date" id="nascimento" required>
+            <label>Lado Político</label>
+            <select id="lado" required>
+                <option value="">Selecione</option>
+                <option>Direita</option>
+                <option>Centro</option>
+                <option>Esquerda</option>
+            </select>
 
-<label>CPF (RP)</label>
-<input id="cpf" type="number" inputmode="numeric" required>
+            <label>Partido</label>
+            <select id="partido" required></select>
 
-<label>TikTok</label>
-<input id="tiktok" required>
+            <label>Pretensão de Cargo</label>
+            <select id="cargoPretendido" required>
+                <option value="">Selecione</option>
+                <option>Eleitor/Apoiador</option>
+                <option>Candidato a Vereador</option>
+                <option>Candidato a Deputado</option>
+                <option>Candidato a Senador</option>
+                <option>Candidato a Prefeito</option>
+                <option>Candidato a Governador</option>
+                <option>Candidato a Presidente</option>
+            </select>
+            <button type="submit" style="margin-top:20px">Confirmar Filiação</button>
+        </form>
 
-<label>Zona Eleitoral</label>
-<select id="zona" required>
-  <option value="">Selecione</option>
-  <optgroup label="BH">
-    <option>BH-01</option><option>BH-02</option><option>BH-03</option><option>BH-04</option>
-    <option>BH-05</option><option>BH-06</option><option>BH-07</option><option>BH-08</option>
-    <option>BH-09</option><option>BH-10</option><option>BH-11</option><option>BH-12</option>
-    <option>BH-13</option><option>BH-14</option>
-  </optgroup>
-  <optgroup label="NC">
-    <option>NC-01</option><option>NC-02</option><option>NC-03</option><option>NC-04</option>
-    <option>NC-05</option><option>NC-06</option><option>NC-07</option><option>NC-08</option>
-    <option>NC-09</option><option>NC-10</option><option>NC-11</option>
-  </optgroup>
-  <optgroup label="CT">
-    <option>CT-01</option><option>CT-02</option><option>CT-03</option><option>CT-04</option>
-    <option>CT-05</option><option>CT-06</option><option>CT-07</option><option>CT-08</option>
-    <option>CT-09</option><option>CT-10</option><option>CT-11</option><option>CT-12</option>
-  </optgroup>
-  <optgroup label="FM">
-    <option>FM-01</option><option>FM-02</option><option>FM-03</option><option>FM-04</option>
-    <option>FM-05</option><option>FM-06</option><option>FM-07</option><option>FM-08</option>
-    <option>FM-09</option><option>FM-10</option>
-  </optgroup>
-  <optgroup label="FX">
-    <option>FX-01</option><option>FX-02</option><option>FX-03</option><option>FX-04</option>
-    <option>FX-05</option><option>FX-06</option><option>FX-07</option><option>FX-08</option>
-    <option>FX-09</option><option>FX-10</option><option>FX-11</option><option>FX-12</option>
-    <option>FX-13</option><option>FX-14</option>
-  </optgroup>
-</select>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:30px;">
+            <div><h3>📊 Partidos</h3><table><thead><tr><th>Sigla</th><th>Total</th></tr></thead><tbody id="contadorPartidos"></tbody></table></div>
+            <div><h3>📍 Zonas</h3><table><thead><tr><th>Zona</th><th>Total</th></tr></thead><tbody id="contadorZonas"></tbody></table></div>
+        </div>
+    </div>
 
-<label>Lado Político</label>
-<select id="lado" required>
-<option value="">Selecione</option>
-<option>Direita</option>
-<option>Centro</option>
-<option>Esquerda</option>
-</select>
+    <div id="obrasTab" class="tab-content box">
+        <h2>🏗️ Registro de Obras</h2>
+        <select id="cargoObra">
+            <option value="">Seu Cargo</option>
+            <option>Prefeito</option>
+            <option>Governador</option>
+            <option>Senador</option>
+            <option>Presidente</option>
+        </select>
+        <input type="password" id="senhaObra" placeholder="Senha do Cargo">
+        <input id="tituloObra" placeholder="Título da Obra">
+        <input id="localObra" placeholder="Local">
+        <textarea id="descricaoObra" placeholder="Descrição"></textarea>
+        <button onclick="registrarObra()">Publicar</button>
+        <h2 style="margin-top:30px">📋 Mural Governamental</h2>
+        <table>
+            <thead><tr><th>Título</th><th>Cargo</th><th>Local</th><th>Descrição</th><th>Data</th><th id="colAcaoObra" class="hidden">Ação</th></tr></thead>
+            <tbody id="listaObras"></tbody>
+        </table>
+    </div>
 
-<label>Partido</label>
-<select id="partido" required></select>
-
-<label>Pretensão de Cargo</label>
-<select id="cargoPretendido" required>
-<option value="">Selecione a Pretensão</option>
-<option>Eleitor/Apoiador</option>
-<option>Candidato a Vereador</option>
-<option>Candidato a Prefeito</option>
-<option>Candidato a Deputado</option>
-<option>Candidato a Governador</option>
-<option>Candidato a Presidente</option>
-</select>
-<button type="submit">Confirmar</button>
-</form>
-
-<h2>📊 Estatísticas</h2>
-<table>
-<thead><tr><th>Partido</th><th>Total</th></tr></thead>
-<tbody id="contadorPartidos"></tbody>
-</table>
-<table>
-<thead><tr><th>Zona</th><th>Total</th></tr></thead>
-<tbody id="contadorZonas"></tbody>
-</table>
-</div>
-
-<div id="admTab" class="tab-content box">
-<h2>🔐 Painel ADM</h2>
-<input type="password" id="senhaAdm" placeholder="Senha">
-<button onclick="entrarAdm()">Entrar</button>
-
-<div id="areaAdm" class="hidden">
-<p>Total de filiações: <b id="total"></b></p>
-<table>
-<thead>
-<tr><th>Nome</th><th>CPF</th><th>Zona</th><th>Partido</th><th>Cargo</th><th>TikTok</th></tr>
-</thead>
-<tbody id="listaFiliados"></tbody>
-</table>
-</div>
-</div>
-
-<div id="obrasTab" class="tab-content box">
-<h2>🏗️ Registrar Obra</h2>
-<select id="cargoObra">
-<option value="">Cargo</option>
-<option>Prefeito</option>
-<option>Governador</option>
-<option>Presidente</option>
-</select>
-<input type="password" id="senhaObra" placeholder="Senha do cargo">
-<input id="tituloObra" placeholder="Título">
-<textarea id="descricaoObra" placeholder="Descrição"></textarea>
-<input id="localObra" placeholder="Local">
-<button onclick="registrarObra()">Registrar</button>
-
-<h2>📋 Obras</h2>
-<table>
-<thead>
-<tr><th>Título</th><th>Cargo</th><th>Local</th><th>Descrição</th><th>Data</th><th>Ações</th></tr>
-</thead>
-<tbody id="listaObras"></tbody>
-</table>
-</div>
-
+    <div id="admTab" class="tab-content box">
+        <h2>🔐 Painel Administrativo</h2>
+        <input type="password" id="senhaAdm" placeholder="Senha ADM">
+        <button onclick="entrarAdm()">Entrar</button>
+        <div id="areaAdm" class="hidden">
+            <p>Total de filiados: <b id="total">0</b></p>
+            <table>
+                <thead><tr><th>Nome</th><th>CPF</th><th>Zona</th><th>Partido</th><th>Cargo</th><th>TikTok</th></tr></thead>
+                <tbody id="listaFiliados"></tbody>
+            </table>
+        </div>
+    </div>
 </main>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -166,118 +141,93 @@ th {background: #0a7cff; color: #fff;}
 firebase.initializeApp({databaseURL:"https://filiacao-rp-default-rtdb.firebaseio.com"});
 const db = firebase.database();
 
-/* NOVAS VARIÁVEIS PARA O CAMPO DE CARGO */
-const lado = document.getElementById("lado");
-const partido = document.getElementById("partido");
-const cargoPretendido = document.getElementById("cargoPretendido");
-
-const partidos = {
+const partidosMap = {
   Direita: [
-    "PL (22) – Partido Liberal", "PP (11) – Progressistas", "Republicanos (10) – Republicanos",
-    "PRTN (75) – Partido Republicano Trabalhista Nacional", "Patriota (51) – Patriota",
-    "PRTB (28) – Partido Renovador Trabalhista Brasileiro", "NOVO (30) – Partido Novo",
-    "PMB (35) – Partido da Mulher Brasileira", "DC (27) – Democracia Cristã",
-    "UDB (38) – União da Direita Brookasileira", "Agir (36) – Agir", "POL (81) – Partido da Ordem e Liberdade",
-    "ACN (84) – Aliança Cristã Nacional", "PRONA (57) – Partido da Reedificação da Ordem Nacional",
-    "PDC (17) – Partido Democrata Cristão", "PESP (48) – Partido da Esperança",
-    "PMNL (86) – Partido Militar Nacionalista"
+    "PL (22)","PP (11)","Republicanos (10)","PRTN (75)","Patriota (51)","PRTB (28)","NOVO (30)","PMB (35)","DC (27)",
+    "UDB (38) - União da Direita Brookasileira","Agir (36)","POL (81) - Partido da Ordem e Liberdade",
+    "ACN (84) - Aliança Cristã Nacional","PRONA (57) - Partido da Reedificação da Ordem Nacional",
+    "FIB (90) - Frente Integralista Brasileira","PDC (17) - Partido Democrata Cristão",
+    "PESP (48) - Partido da Esperança","PMNL (86) - Partido Militar Nacionalista"
   ],
   Centro: [
-    "MDB (15) – Movimento Democrático Brasileiro", "UNIÃO (44) – União Brasil",
-    "PSD (55) – Partido Social Democrático", "Podemos (20) – Podemos",
-    "PSDB (45) – Partido da Social Democracia Brasileira", "Cidadania (23) – Cidadania",
-    "Solidariedade (77) – Solidariedade", "Avante (70) – Avante", "PMN (33) – Partido da Mobilização Nacional",
-    "PV (43) – Partido Verde", "PUN (42) – Partido da União Nacional",
-    "MPD (37) – Movimento Popular Democrático", "PDM (26) – Partido da Mudança",
-    "MTB (63) – Movimento Trabalhista Brookasileiro", "PTD (46) – Partido Trabalhista Democrático",
-    "PDSD (88) – Partido do Sindicato Democrata", "MSS (14) – Partido Missão"
+    "MDB (15)","UNIÃO (44)","PSD (55)","Podemos (20)","PSDB (45)","Cidadania (CDN)","Solidariedade (77)","Avante (70)","PMN (33)","Pros (90)","PV (43)",
+    "PUN (42) - Partido da União Nacional","MPD (37) - Movimento Popular Democrático","PDM (26) - Partido da Mudança",
+    "MTB (63) - Movimento Trabalhista Brookasileiro","PTD (46) - Partido Trabalhista Democrático",
+    "PDSD (88) - Partido do Sindicato Democrata","MSS (14) - Partido Missão"
   ],
   Esquerda: [
-    "PT (13) – Partido dos Trabalhadores", "PSOL (50) – Partido Socialismo e Liberdade",
-    "PCdoB (65) – Partido Comunista do Brasil", "Rede (18) – Rede Sustentabilidade",
-    "PDT (12) – Partido Democrático Trabalhista", "UP (80) – Unidade Popular",
-    "PCO (29) – Partido da Causa Operária", "PCB (21) – Partido Comunista Brasileiro",
-    "PSTU (16) – Partido Socialista dos Trabalhadores Unificado", "PPL (54) – Partido Pátria Livre",
-    "PSB (40) – Partido Socialista Brasileiro", "PFS (60) – Partido da Frente Socialista",
-    "PS (56) – Partido Socialista", "PSTN (31) – Partido Social Trabalhista Nacional"
+    "PT (13)","PSOL (50)","PCdoB (65)","Rede (18)","PDT (12)","UP (80)","PCO (29)","PCB (21)","PSTU (16)","PPL (54)","PSB (40)",
+    "PFS (60) - Partido da Frente Socialista","PS (56) - Partido Socialista","PSTN (31) - Partido Social Trabalhista Nacional"
   ]
 };
 
-lado.onchange = () => {
-  partido.innerHTML = "<option value=''>Selecione</option>";
-  (partidos[lado.value] || []).forEach(p => partido.innerHTML += `<option>${p}</option>`);
+document.getElementById("lado").onchange = function() {
+  const pSel = document.getElementById("partido");
+  pSel.innerHTML = "<option value=''>Selecione</option>";
+  (partidosMap[this.value] || []).forEach(p => pSel.innerHTML += `<option>${p}</option>`);
 };
 
-/* FILIAÇÃO */
-formFiliacao.onsubmit = e => {
+document.getElementById("formFiliacao").onsubmit = e => {
   e.preventDefault();
   db.ref("filiacoes").push({
-    nome: nome.value,
-    nascimento: nascimento.value,
-    cpf: cpf.value,
-    tiktok: tiktok.value,
-    zona: zona.value,
-    partido: partido.value,
-    cargoPretendido: cargoPretendido.value // SALVANDO O NOVO CAMPO
-  });
-  formFiliacao.reset();
+    nome: document.getElementById("nome").value,
+    nascimento: document.getElementById("nascimento").value,
+    cpf: document.getElementById("cpf").value,
+    tiktok: document.getElementById("tiktok").value,
+    zona: document.getElementById("zona").value,
+    partido: document.getElementById("partido").value,
+    cargoPretendido: document.getElementById("cargoPretendido").value
+  }).then(() => { alert("Sucesso!"); document.getElementById("formFiliacao").reset(); });
 };
 
-/* LEITURA + ESTATÍSTICAS */
 db.ref("filiacoes").on("value", s => {
   const d = s.val() || {};
-  let p={}, z={}, totalG=0;
-  contadorPartidos.innerHTML="";
-  contadorZonas.innerHTML="";
-  listaFiliados.innerHTML="";
-  Object.values(d).forEach(f=>{
-    totalG++;
-    p[f.partido]=(p[f.partido]||0)+1;
-    z[f.zona]=(z[f.zona]||0)+1;
-    // INCLUINDO A COLUNA "CARGO" NO PAINEL ADM
-    listaFiliados.innerHTML += `<tr>
-      <td>${f.nome}</td><td>${f.cpf}</td><td>${f.zona}</td><td>${f.partido}</td><td>${f.cargoPretendido || 'N/A'}</td><td>${f.tiktok}</td>
-    </tr>`;
+  let pC={}, zC={}, tot=0;
+  document.getElementById("listaFiliados").innerHTML = "";
+  Object.values(d).forEach(f => {
+    tot++; pC[f.partido]=(pC[f.partido]||0)+1; zC[f.zona]=(zC[f.zona]||0)+1;
+    document.getElementById("listaFiliados").innerHTML += `<tr><td>${f.nome}</td><td>${f.cpf}</td><td>${f.zona}</td><td>${f.partido}</td><td>${f.cargoPretendido}</td><td>${f.tiktok}</td></tr>`;
   });
-  for(let k in p) contadorPartidos.innerHTML += `<tr><td>${k}</td><td>${p[k]}</td></tr>`;
-  for(let k in z) contadorZonas.innerHTML += `<tr><td>${k}</td><td>${z[k]}</td></tr>`;
-  total.textContent = totalG;
+  document.getElementById("contadorPartidos").innerHTML = Object.entries(pC).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  document.getElementById("contadorZonas").innerHTML = Object.entries(zC).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  document.getElementById("total").textContent = tot;
 });
 
-/* ADM */
+const SENHAS = {Prefeito:"popo30", Governador:"caiado44", Senador:"senado2024", Presidente:"henrique44"};
+function registrarObra(){
+  const c = document.getElementById("cargoObra").value;
+  if(SENHAS[c] !== document.getElementById("senhaObra").value) return alert("Senha incorreta");
+  db.ref("obras").push({
+    cargo: c, titulo: document.getElementById("tituloObra").value,
+    local: document.getElementById("localObra").value,
+    descricao: document.getElementById("descricaoObra").value,
+    data: new Date().toLocaleDateString("pt-BR")
+  }).then(() => { alert("Obra Publicada!"); document.getElementById("tituloObra").value=""; document.getElementById("descricaoObra").value=""; });
+}
+
 let admLogado = false;
 function entrarAdm() {
-  if(senhaAdm.value === "Brookasil1234") {
-    areaAdm.classList.remove("hidden");
+  if(document.getElementById("senhaAdm").value === "Brookasil1234") {
     admLogado = true;
+    document.getElementById("areaAdm").classList.remove("hidden");
+    document.getElementById("colAcaoObra").classList.remove("hidden");
+    renderObras();
   }
 }
 
-/* OBRAS */
-const SENHAS = {Prefeito:"popo30", Governador:"caiado44", Presidente:"henrique44"};
-function registrarObra(){
-  if(SENHAS[cargoObra.value] !== senhaObra.value) return alert("Senha errada");
-  db.ref("obras").push({
-    cargo: cargoObra.value,
-    titulo: tituloObra.value,
-    descricao: descricaoObra.value,
-    local: localObra.value,
-    data: new Date().toLocaleDateString("pt-BR")
+function renderObras() {
+  db.ref("obras").on("value", s => {
+    const list = document.getElementById("listaObras");
+    list.innerHTML = "";
+    Object.entries(s.val() || {}).forEach(([id, o]) => {
+      list.innerHTML += `<tr><td>${o.titulo}</td><td>${o.cargo}</td><td>${o.local}</td><td>${o.descricao}</td><td>${o.data}</td>
+      ${admLogado ? `<td><button onclick="db.ref('obras/${id}').remove()" style="background:red">X</button></td>` : ""}</tr>`;
+    });
   });
 }
+renderObras();
 
-db.ref("obras").on("value", s => {
-  listaObras.innerHTML = "";
-  Object.entries(s.val() || {}).forEach(([id,o])=>{
-    listaObras.innerHTML += `<tr>
-      <td>${o.titulo}</td><td>${o.cargo}</td><td>${o.local}</td><td>${o.descricao}</td><td>${o.data}</td>
-      <td>${admLogado?`<button onclick="db.ref('obras/${id}').remove()">🗑️</button>`:""}</td>
-    </tr>`;
-  });
-});
-
-/* ABAS */
-function abrirAba(id, btn){
+function abrirAba(id, btn) {
   document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
   document.querySelectorAll(".tab-buttons button").forEach(b => b.classList.remove("active"));
   document.getElementById(id).classList.add("active");
