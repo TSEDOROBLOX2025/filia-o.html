@@ -265,9 +265,36 @@ firebase.initializeApp({databaseURL: "https://filiacao-rp-default-rtdb.firebasei
 const db = firebase.database();
 
 const partidosMap = {
-  Direita: ["PL (22)", "PP (11)", "Republicanos (10)", "NOVO (30)", "UDB (38)"],
-  Centro: ["MDB (15)", "UNIÃO (44)", "PSD (55)", "PSDB (45)", "Cidadania"],
-  Esquerda: ["PT (13)", "PSOL (50)", "PCdoB (65)", "PDT (12)", "UP (80)"]
+  Direita: [
+    "PL (22) - Partido Liberal", "PP (11) - Progressistas", "Republicanos (10)", 
+    "PRTN (75) - Partido Republicano Trabalhista Nacional", "Patriota (51)", 
+    "PRTB (28) - Partido Renovador Trabalhista Brasileiro", "NOVO (30)", 
+    "PMB (35) - Partido da Mulher Brasileira", "DC (27) - Democracia Cristã", 
+    "UDB (38) - União da Direita Brookasileira", "Agir (36)", 
+    "POL (81) - Partido da Ordem e Liberdade", "ACN (84) - Aliança Cristã Nacional", 
+    "PRONA (57) - Partido da Reedificação da Ordem Nacional", 
+    "PSL (17) - Partido Social Liberal", "PESP (48) - Partido da Esperança", 
+    "PMNL (86) - Partido Militar Nacionalista"
+  ],
+  Centro: [
+    "MDB (15) - Movimento Democrático Brasileiro", "UNIÃO (44) - União Brasil", 
+    "PSD (55) - Partido Social Democrático", "Podemos (20)", 
+    "PSDB (45) - Partido da Social Democracia Brasileira", "Cidadania (CDN)", 
+    "Solidariedade (77)", "Avante (70)", "PMN (33) - Partido da Mobilização Nacional", 
+    "PV (43) - Partido Verde", "PUN (42) - Partido da União Nacional", 
+    "MPD (37) - Movimento Popular Democrático", "PDM (26) - Partido da Mudança", 
+    "MTB (63) - Movimento Trabalhista Brookasileiro", "PTD (46) - Partido Trabalhista Democrático", 
+    "PDSD (88) - Partido do Sindicato Democrata", "MSS (14) - Partido Missão"
+  ],
+  Esquerda: [
+    "PT (13) - Partido dos Trabalhadores", "PSOL (50) - Partido Socialismo e Liberdade", 
+    "PCdoB (65) - Partido Comunista do Brasil", "Rede (18) - Rede Sustentabilidade", 
+    "PDT (12) - Partido Democrático Trabalhista", "UP (80) - Unidade Popular", 
+    "PCO (29) - Partido da Causa Operária", "PCB (21) - Partido Comunista Brasileiro", 
+    "PSTU (16) - Partido Socialista dos Trabalhadores Unificado", "PPL (54) - Partido Pátria Livre", 
+    "PSB (40) - Partido Socialista Brasileiro", "PFS (60) - Partido da Frente Socialista", 
+    "PS (56) - Partido Socialista", "PSTN (31) - Partido Social Trabalhista Nacional"
+  ]
 };
 
 document.getElementById("lado").onchange = function() {
